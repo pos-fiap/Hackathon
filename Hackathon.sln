@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.9.34728.123
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon", "Hackathon\Hackathon.csproj", "{95040DEC-9E09-4C84-8BB6-786900C978DD}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{95040DEC-9E09-4C84-8BB6-786900C978DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95040DEC-9E09-4C84-8BB6-786900C978DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95040DEC-9E09-4C84-8BB6-786900C978DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95040DEC-9E09-4C84-8BB6-786900C978DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {80BB56EB-C7E3-4AF5-9D8B-57C87F26A0C5}
+	EndGlobalSection
+EndGlobal
