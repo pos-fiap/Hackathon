@@ -1,11 +1,17 @@
-version: '3.4'
+version: '3.8'
 
 services:
   hackathon:
     image: ${DOCKER_REGISTRY-}hackathon
     build:
       context: .
-      dockerfile: Hackathon/Dockerfile
+      dockerfile: Hackathon.Api/Dockerfile
+    depends_on:
+      - sqlserver
+    environment:
+      - ConnectionStrings__DefaultConnection=Data Source=127.0.0.1,1433;Initial Catalog=HACKATHON;User ID=sa;Password=Abcd1234;TrustServerCertificate=True;
+    volumes:
+      - ./remote_debugger:/remote_debugger
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
     environment:
