@@ -1,4 +1,3 @@
-
 FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER root
 WORKDIR /app
@@ -28,11 +27,9 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-COPY entrypoint.sh .
-RUN chmod +x entrypoint.sh
-
+USER root
 RUN dotnet tool install --global dotnet-ef
 
 ENV PATH="$PATH:/root/.dotnet/tools"
 
-ENTRYPOINT ["./entrypoint.sh"]
+ENTRYPOINT ["sh", "-c", "echo 'Applying migrations...' && dotnet ef migrations add InitialCreate && dotnet ef database update && echo 'Starting application...' && exec dotnet Hackathon.Api.dll"]

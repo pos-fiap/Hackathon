@@ -1,5 +1,8 @@
 #!/bin/sh
 
+echo "Applying migrations..."
+dotnet ef migrations add InitialCreate
 dotnet ef database update
 
-dotnet Hackathon.Api.dll
+echo "Starting application..."
+exec dotnet Hackathon.Api.dll

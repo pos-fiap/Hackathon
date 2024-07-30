@@ -9,7 +9,7 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetConnectionString("Default")!;
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("The connection string 'DefaultConnection' is missing or empty."); ;
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString).UseLazyLoadingProxies());
 
