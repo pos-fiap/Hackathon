@@ -3,9 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.9.34728.123
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon", "Hackathon\Hackathon.csproj", "{95040DEC-9E09-4C84-8BB6-786900C978DD}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Api", "Hackathon\Hackathon.Api.csproj", "{95040DEC-9E09-4C84-8BB6-786900C978DD}"
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Application", "Hackathon.Application\Hackathon.Application.csproj", "{160FE325-B661-4277-9B4A-8267DBA3B190}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Domain", "Hackathon.Domain\Hackathon.Domain.csproj", "{67D879D4-DB57-46C9-B0D0-16B27D55D695}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Infra.Data", "Hackathon.Infra.Data\Hackathon.Infra.Data.csproj", "{4A37D59E-253C-4F8F-9B41-60152AE8241C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Infra.Ioc", "Hackathon.Infra.Ioc\Hackathon.Infra.Ioc.csproj", "{B9B0D818-644D-46ED-8DF5-81CB36C36B0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +29,22 @@ Global
 		{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D8D9CBA2-AE6C-42BB-883F-5E1F2A416098}.Release|Any CPU.Build.0 = Release|Any CPU
+		{160FE325-B661-4277-9B4A-8267DBA3B190}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{160FE325-B661-4277-9B4A-8267DBA3B190}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{160FE325-B661-4277-9B4A-8267DBA3B190}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{160FE325-B661-4277-9B4A-8267DBA3B190}.Release|Any CPU.Build.0 = Release|Any CPU
+		{67D879D4-DB57-46C9-B0D0-16B27D55D695}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{67D879D4-DB57-46C9-B0D0-16B27D55D695}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{67D879D4-DB57-46C9-B0D0-16B27D55D695}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{67D879D4-DB57-46C9-B0D0-16B27D55D695}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4A37D59E-253C-4F8F-9B41-60152AE8241C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4A37D59E-253C-4F8F-9B41-60152AE8241C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4A37D59E-253C-4F8F-9B41-60152AE8241C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4A37D59E-253C-4F8F-9B41-60152AE8241C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B9B0D818-644D-46ED-8DF5-81CB36C36B0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B9B0D818-644D-46ED-8DF5-81CB36C36B0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B9B0D818-644D-46ED-8DF5-81CB36C36B0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B9B0D818-644D-46ED-8DF5-81CB36C36B0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
