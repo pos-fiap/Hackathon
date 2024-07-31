@@ -31,7 +31,7 @@ jobs:
       with:
         push: true
         tags: index.docker.io/${{ secrets.AzureAppService_ContainerUsername_97eaab32378a4dbc85b6408f03c204c8 }}/hackathon:${{ github.sha }}
-        file: ./Dockerfile
+        file: ./Hackathon.Api/Dockerfile
 
   deploy:
     runs-on: ubuntu-latest
