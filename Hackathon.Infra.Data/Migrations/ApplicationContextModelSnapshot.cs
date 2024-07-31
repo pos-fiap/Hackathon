@@ -210,7 +210,7 @@ namespace Hackathon.Infra.Data.Migrations
                         {
                             Id = 1,
                             CustomerVehicleId = 1,
-                            Entrance = new DateTime(2024, 7, 30, 22, 17, 25, 121, DateTimeKind.Local).AddTicks(4138),
+                            Entrance = new DateTime(2024, 7, 30, 22, 44, 0, 546, DateTimeKind.Local).AddTicks(625),
                             Finished = false,
                             Paid = false,
                             ParkingSpotId = 1,
@@ -244,15 +244,15 @@ namespace Hackathon.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AlterDate = new DateTime(2024, 7, 30, 22, 17, 25, 7, DateTimeKind.Local).AddTicks(6968),
-                            CreateDate = new DateTime(2024, 7, 30, 22, 17, 25, 7, DateTimeKind.Local).AddTicks(6958),
+                            AlterDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1393),
+                            CreateDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1383),
                             Description = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            AlterDate = new DateTime(2024, 7, 30, 22, 17, 25, 7, DateTimeKind.Local).AddTicks(6970),
-                            CreateDate = new DateTime(2024, 7, 30, 22, 17, 25, 7, DateTimeKind.Local).AddTicks(6970),
+                            AlterDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1395),
+                            CreateDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1394),
                             Description = "Employee"
                         });
                 });
@@ -404,7 +404,7 @@ namespace Hackathon.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "$2a$11$Rj/gzvbsy3VcoSiU.mPNd.h2MAtu/xNPuPiXB0Ow9UhTssQKtVWTO",
+                            PasswordHash = "$2a$11$oKTc9OifovcD7z.dhfqqde.N5nnWJbMeDGscAS9T31/MWq.rd7OBG",
                             PersonId = 1,
                             Username = "admin"
                         });
@@ -476,7 +476,7 @@ namespace Hackathon.Infra.Data.Migrations
                         {
                             Id = 1,
                             CNH = "98765432",
-                            CNHExpiration = new DateTime(2027, 7, 30, 22, 17, 25, 121, DateTimeKind.Local).AddTicks(4069),
+                            CNHExpiration = new DateTime(2027, 7, 30, 22, 44, 0, 546, DateTimeKind.Local).AddTicks(556),
                             PersonId = 3
                         });
                 });

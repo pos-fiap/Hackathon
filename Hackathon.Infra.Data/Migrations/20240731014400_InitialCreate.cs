@@ -262,8 +262,8 @@ namespace Hackathon.Infra.Data.Migrations
                 columns: new[] { "Id", "AlterDate", "CreateDate", "Description" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2572), new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2563), "Admin" },
-                    { 2, new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2574), new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2573), "Employee" }
+                    { 1, new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1393), new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1383), "Admin" },
+                    { 2, new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1395), new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1394), "Employee" }
                 });
 
             migrationBuilder.InsertData(
@@ -300,17 +300,17 @@ namespace Hackathon.Infra.Data.Migrations
             migrationBuilder.InsertData(
                 table: "User",
                 columns: new[] { "Id", "PasswordHash", "PersonId", "RefreshToken", "RefreshTokenExpiryDate", "Username" },
-                values: new object[] { 1, "$2a$11$PN5odqrlOwUryo5NoctT/OQPDVIHM.qRja3cYu3Vpu7jnrlkVrt.K", 1, null, null, "admin" });
+                values: new object[] { 1, "$2a$11$oKTc9OifovcD7z.dhfqqde.N5nnWJbMeDGscAS9T31/MWq.rd7OBG", 1, null, null, "admin" });
 
             migrationBuilder.InsertData(
                 table: "Valet",
                 columns: new[] { "Id", "UserId", "RoleId", "PersonId" },
-                values: new object[] { 1, "98765432", new DateTime(2027, 7, 30, 21, 7, 3, 519, DateTimeKind.Local).AddTicks(852), 3 });
+                values: new object[] { 1, "98765432", new DateTime(2027, 7, 30, 22, 44, 0, 546, DateTimeKind.Local).AddTicks(556), 3 });
 
             migrationBuilder.InsertData(
                 table: "Reservation",
                 columns: new[] { "Id", "CustomerVehicleId", "Entrance", "Exit", "Finished", "Paid", "ParkingSpotId", "TimeParked", "ValetId" },
-                values: new object[] { 1, 1, new DateTime(2024, 7, 30, 21, 7, 3, 519, DateTimeKind.Local).AddTicks(914), null, false, false, 1, 0, 1 });
+                values: new object[] { 1, 1, new DateTime(2024, 7, 30, 22, 44, 0, 546, DateTimeKind.Local).AddTicks(625), null, false, false, 1, 0, 1 });
 
             migrationBuilder.InsertData(
                 table: "UserRole",

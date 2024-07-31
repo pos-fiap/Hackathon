@@ -27,11 +27,4 @@ FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 
-USER root
-RUN dotnet tool install --global dotnet-ef
-
-ENV PATH="$PATH:/root/.dotnet/tools"
-
-RUN dotnet ef database update --project Hackathon.Infra.Data --startup-project Hackathon.Api
-
 ENTRYPOINT dotnet Hackathon.Api.dll
