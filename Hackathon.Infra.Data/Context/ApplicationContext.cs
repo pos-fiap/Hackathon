@@ -12,13 +12,7 @@ namespace Hackathon.Infra.Data.Context
         public DbSet<User> User { get; set; }
         public DbSet<UserRole> UserRole { get; set; }
         public DbSet<Role> Role { get; set; }
-        public DbSet<Valet> Valet { get; set; }
         public DbSet<Person> Person { get; set; }
-        public DbSet<Customer> Customer { get; set; }
-        public DbSet<CustomerVehicle> CustomerVehicle { get; set; }
-        public DbSet<Vehicle> Vehicle { get; set; }
-        public DbSet<Reservation> Reservation { get; set; }
-        public DbSet<ParkingSpot> ParkingSpot { get; set; }
         public DbSet<RoleAccess> RoleAccess { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -78,17 +72,8 @@ namespace Hackathon.Infra.Data.Context
 
             modelBuilder.Entity<UserRole>().HasData(new UserRole { Id = 1, RoleId = 1, UserId = 1 });
 
-            modelBuilder.Entity<Customer>().HasData(new Customer { Id = 1, PersonId = 2 });
 
-            modelBuilder.Entity<Vehicle>().HasData(new Vehicle { Id = 1, Brand = "Toyota", LicensePlate = "ABC123", Model = "Corola", VehicleType = VehicleType.Automobile });
 
-            modelBuilder.Entity<CustomerVehicle>().HasData(new CustomerVehicle { Id = 1, CustomerId = 1, PersonId = 2, VehicleId = 1 });
-
-            modelBuilder.Entity<ParkingSpot>().HasData(new ParkingSpot { Id = 1, Description = "A1", Status = true });
-
-            modelBuilder.Entity<Valet>().HasData(new Valet { Id = 1, CNH = "98765432", CNHExpiration = DateTime.Now.AddYears(3), PersonId = 3 });
-
-            modelBuilder.Entity<Reservation>().HasData(new Reservation { Id = 1, ValetId = 1, ParkingSpotId = 1, CustomerVehicleId = 1, Entrance = DateTime.Now, Paid = false });
         }
 
     }

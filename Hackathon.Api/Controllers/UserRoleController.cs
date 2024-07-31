@@ -21,10 +21,6 @@ namespace Hackathon.Api.Controllers
         {
             try
             {
-
-                //TODO: Usar UserService para validar a existência do Usuário
-                //TODO: Usar RoleService para validar a existência da Role
-
                 return ModelState.IsValid ? Ok(await _userRoleService.AssignRoleToUser(userRoleDto)) : CustomResponse(ModelState);
 
             }

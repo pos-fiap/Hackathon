@@ -59,30 +59,27 @@ namespace Hackathon.Api.Controllers
         }
 
 
-        [HttpPost("refresh")]
-        [CustomAuthorization(CheckAction = true)]
-        public async Task<IActionResult> RefreshToken(TokenDto tokenDto)
-        {
-            try
-            {
-                BaseOutput<TokenDto> response = await _authService.RefreshExpiratedTokenAsync(tokenDto);
+        //[HttpPost("refresh")]
+        //[CustomAuthorization(CheckAction = true)]
+        //public async Task<IActionResult> RefreshToken(TokenDto tokenDto)
+        //{
+        //    try
+        //    {
+        //        BaseOutput<TokenDto> response = await _authService.RefreshExpiratedTokenAsync(tokenDto);
 
-                if (!response.IsSuccessful)
-                {
-                    return CustomResponse(response);
-                }
+        //        if (!response.IsSuccessful)
+        //        {
+        //            return CustomResponse(response);
+        //        }
 
-                return Ok(response.Response);
+        //        return Ok(response.Response);
 
-            }
-            catch (Exception ex)
-            {
-                return InternalErrorResponse(ex);
-            }
-
-
-
-        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return InternalErrorResponse(ex);
+        //    }
+        //}
 
     }
 }
