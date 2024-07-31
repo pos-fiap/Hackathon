@@ -32,4 +32,6 @@ RUN dotnet tool install --global dotnet-ef
 
 ENV PATH="$PATH:/root/.dotnet/tools"
 
-ENTRYPOINT ["sh", "-c", "echo 'Applying migrations...' && dotnet ef migrations add InitialCreate --startup-project Hackathon.Api --project Hackathon.Infra.Data && dotnet ef database update --project Hackathon.Infra.Data --startup-project Hackathon.Api && echo 'Starting application...' && exec dotnet Hackathon.Api.dll"]
+RUN dotnet ef database update --project Hackathon.Infra.Data --startup-project Hackathon.Api
+
+ENTRYPOINT dotnet Hackathon.Api.dll
