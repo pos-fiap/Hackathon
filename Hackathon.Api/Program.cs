@@ -62,10 +62,16 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-//if (app.Environment.IsDevelopment())
+using var scope = app.Services.CreateScope();
+using var context = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+
+if (context.Database.GetPendingMigrations().Any())
+{
+    context.Database.Migrate();
+}
+
 app.UseSwagger();
 app.UseSwaggerUI();
-
 
 app.UseHttpsRedirection();
 

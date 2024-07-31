@@ -9,7 +9,7 @@ services:
     depends_on:
       - sqlserver
     environment:
-      - ConnectionStrings__DefaultConnection=Data Source=(LocalDB)\MSSQLLocalDB,1433;Initial Catalog=HACKATHON;User ID=sa;Password=Abcd1234;TrustServerCertificate=True;
+      - ConnectionStrings__DefaultConnection=Data Source=sqlserver,1433;Initial Catalog=HACKATHON;User ID=sa;Password=Abcd1234;TrustServerCertificate=True;
     volumes:
       - ./remote_debugger:/remote_debugger
     networks:

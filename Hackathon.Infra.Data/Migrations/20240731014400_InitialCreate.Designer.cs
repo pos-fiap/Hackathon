@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hackathon.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240731000704_InitialCreate")]
+    [Migration("20240731014400_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -213,7 +213,7 @@ namespace Hackathon.Infra.Data.Migrations
                         {
                             Id = 1,
                             CustomerVehicleId = 1,
-                            Entrance = new DateTime(2024, 7, 30, 21, 7, 3, 519, DateTimeKind.Local).AddTicks(914),
+                            Entrance = new DateTime(2024, 7, 30, 22, 44, 0, 546, DateTimeKind.Local).AddTicks(625),
                             Finished = false,
                             Paid = false,
                             ParkingSpotId = 1,
@@ -247,15 +247,15 @@ namespace Hackathon.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AlterDate = new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2572),
-                            CreateDate = new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2563),
+                            AlterDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1393),
+                            CreateDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1383),
                             Description = "Admin"
                         },
                         new
                         {
                             Id = 2,
-                            AlterDate = new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2574),
-                            CreateDate = new DateTime(2024, 7, 30, 21, 7, 3, 251, DateTimeKind.Local).AddTicks(2573),
+                            AlterDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1395),
+                            CreateDate = new DateTime(2024, 7, 30, 22, 44, 0, 430, DateTimeKind.Local).AddTicks(1394),
                             Description = "Employee"
                         });
                 });
@@ -407,7 +407,7 @@ namespace Hackathon.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            PasswordHash = "$2a$11$PN5odqrlOwUryo5NoctT/OQPDVIHM.qRja3cYu3Vpu7jnrlkVrt.K",
+                            PasswordHash = "$2a$11$oKTc9OifovcD7z.dhfqqde.N5nnWJbMeDGscAS9T31/MWq.rd7OBG",
                             PersonId = 1,
                             Username = "admin"
                         });
@@ -479,7 +479,7 @@ namespace Hackathon.Infra.Data.Migrations
                         {
                             Id = 1,
                             CNH = "98765432",
-                            CNHExpiration = new DateTime(2027, 7, 30, 21, 7, 3, 519, DateTimeKind.Local).AddTicks(852),
+                            CNHExpiration = new DateTime(2027, 7, 30, 22, 44, 0, 546, DateTimeKind.Local).AddTicks(556),
                             PersonId = 3
                         });
                 });
