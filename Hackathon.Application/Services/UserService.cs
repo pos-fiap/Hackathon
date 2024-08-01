@@ -129,8 +129,6 @@ namespace Hackathon.Application.Services
 
             ValidationUtil.ValidateClass(userDto, _userUpdateDtoValidator, response);
 
-
-
             if (user is null)
             {
                 response.AddError("Not Found!");
