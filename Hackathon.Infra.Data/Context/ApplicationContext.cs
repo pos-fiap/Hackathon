@@ -73,6 +73,14 @@ namespace Hackathon.Infra.Data.Context
                 new UserRole { Id = 1, RoleId = 1, UserId = 1 },
                 new UserRole { Id = 2, RoleId = 2, UserId = 2 }
                 );
+
+            modelBuilder.Entity<Doctor>().HasData(
+                               new Doctor { Id = 1, PersonId = 1, CRM = "123456", Specialty = "Clinico Geral" }
+                               );
+
+            modelBuilder.Entity<Patient>().HasData(
+                                              new Patient { Id = 1, PersonId = 2, HealthInsurance = "Unimed" }
+                               );
         }
 
     }
