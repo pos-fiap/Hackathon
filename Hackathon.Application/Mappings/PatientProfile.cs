@@ -9,6 +9,7 @@ namespace Hackathon.Application.Mappings
         public PatientProfile()
         {
             CreateMap<Patient, PatientDto>().ReverseMap();
+
         }
     }
 }
