@@ -55,7 +55,7 @@ namespace Hackathon.Application.Services
             return response;
         }
 
-        
+
         public async Task<BaseOutput<int>> Create(PatientDto patientDto)
         {
             BaseOutput<int> response = new();

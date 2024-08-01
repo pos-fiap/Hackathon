@@ -1,6 +1,4 @@
-﻿using Hackathon.Domain.Enums;
-
-namespace Hackathon.Application.DTOs
+﻿namespace Hackathon.Application.DTOs
 {
     public class PatientDto
     {

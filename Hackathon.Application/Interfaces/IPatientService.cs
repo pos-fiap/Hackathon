@@ -1,6 +1,5 @@
 ﻿using Hackathon.Application.BaseResponse;
 using Hackathon.Application.DTOs;
-using Hackathon.Application.Models;
 using Hackathon.Domain.Entities;
 
 namespace Hackathon.Application.Interfaces
