@@ -10,7 +10,7 @@ namespace Hackathon.Infra.Ioc.Services
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUserRoleService, UserRoleService>();
-            services.AddScoped<IPersonService, PersonService>();
+            //services.AddScoped<IPersonService, PersonService>();
             services.AddScoped<IRoleService, RoleService>();
             services.AddScoped<IRoleAccessService, RoleAccessService>();
             services.AddScoped<IAuthService, AuthService>();
