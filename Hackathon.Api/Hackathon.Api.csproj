@@ -10,6 +10,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Controllers\CustomerController.cs" />
+    <Compile Remove="Controllers\CustomerVehicleController.cs" />
+    <Compile Remove="Controllers\ParkingSpotController.cs" />
+    <Compile Remove="Controllers\PersonController.cs" />
+    <Compile Remove="Controllers\ReservationController.cs" />
+    <Compile Remove="Controllers\ValetController.cs" />
+    <Compile Remove="Controllers\VehicleController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.7" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.7" />

@@ -70,7 +70,7 @@ namespace Hackathon.Application.Services
                 return response;
             }
 
-            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Username == loginDto.Username, true);
+            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == loginDto.Username, true);
 
             response.Response = users.FirstOrDefault() ?? new User();
             return response;
@@ -79,7 +79,7 @@ namespace Hackathon.Application.Services
 
         public async Task<BaseOutput<User>> Get(UserDto userDto)
         {
-            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Username == userDto.Username, true);
+            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == userDto.Username, true);
 
             BaseOutput<User> response = new()
             {
@@ -173,7 +173,7 @@ namespace Hackathon.Application.Services
 
         public async Task<bool> Verify(string username)
         {
-            return await _userRepository.ExistsAsync(x => x.Username == username);
+            return await _userRepository.ExistsAsync(x => x.Email == username);
         }
 
         public async Task<bool> Verify(int Id)
@@ -191,7 +191,7 @@ namespace Hackathon.Application.Services
 
         public Task<User> Get(string username)
         {
-            return _userRepository.GetSingleAsync(x => x.Username == username, true);
+            return _userRepository.GetSingleAsync(x => x.Email == username, true);
         }
 
     }

@@ -6,4 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Entities\Customer.cs" />
+    <Compile Remove="Entities\CustomerVehicle.cs" />
+    <Compile Remove="Entities\ParkingSpot.cs" />
+    <Compile Remove="Entities\Reservation.cs" />
+    <Compile Remove="Entities\Valet.cs" />
+    <Compile Remove="Entities\Vehicle.cs" />
+    <Compile Remove="Enums\VehicleType.cs" />
+    <Compile Remove="Interfaces\ICustomerRepository.cs" />
+    <Compile Remove="Interfaces\ICustomerVehicleRepository.cs" />
+    <Compile Remove="Interfaces\IParkingSpotRepository.cs" />
+    <Compile Remove="Interfaces\IReservationRepository.cs" />
+    <Compile Remove="Interfaces\IValetRepository.cs" />
+    <Compile Remove="Interfaces\IVehicleRepository.cs" />
+  </ItemGroup>
+
 </Project>

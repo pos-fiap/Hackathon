@@ -14,7 +14,7 @@ namespace Hackathon.Infra.Data.Repositories
         public IList<Person> GetPersonByDocument(string document)
         {
             return context.Person
-                    .Where(x => x.Document == document && x.Status == Status.Active)
+                    .Where(x => x.CPF == document && x.Status == Status.Active)
                     .ToList();
         }
     }

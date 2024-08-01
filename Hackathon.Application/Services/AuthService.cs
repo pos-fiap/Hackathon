@@ -28,7 +28,7 @@ namespace Hackathon.Application.Services
             List<Claim> claims = new()
             {
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
-                new Claim(ClaimTypes.Name, user.Username)
+                new Claim(ClaimTypes.Name, user.Email)
             };
 
             SymmetricSecurityKey key = new(Encoding.UTF8.GetBytes(_configuration.GetSection("Jwt:Key").Value!));
@@ -132,7 +132,7 @@ namespace Hackathon.Application.Services
                 IsSuccessful = true
             };
 
-            if (user.Username != loginDto.Username || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
+            if (user.Email != loginDto.Username || !BCrypt.Net.BCrypt.Verify(loginDto.Password, user.PasswordHash))
             {
                 response.IsSuccessful = false;
                 response.AddError("Incorrect User or Password");

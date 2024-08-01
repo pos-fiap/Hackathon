@@ -11,7 +11,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("The connection string 'DefaultConnection' is missing or empty."); ;
 
-builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString).UseLazyLoadingProxies());
+builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()).UseLazyLoadingProxies());
 
 builder.Services.AddControllers();
 builder.Services.AddDIConfiguration();

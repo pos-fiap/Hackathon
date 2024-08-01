@@ -16,7 +16,7 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
 
             builder.Property(p => p.Name).HasColumnType("varchar(50)").HasColumnName("Name").IsRequired();
             builder.Property(p => p.Status).HasColumnType("int").HasColumnName("Status").IsRequired();
-            builder.Property(p => p.Document).HasColumnType("varchar(15)").HasColumnName("Document").IsRequired();
+            builder.Property(p => p.CPF).HasColumnType("varchar(15)").HasColumnName("Document").IsRequired();
 
         }
     }

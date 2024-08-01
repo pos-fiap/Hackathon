@@ -11,7 +11,7 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
             builder.ToTable("User");
 
 
-            builder.Property(p => p.Username).HasColumnType("varchar(50)").HasColumnName("Username").IsRequired();
+            builder.Property(p => p.Email).HasColumnType("varchar(50)").HasColumnName("Username").IsRequired();
             builder.Property(p => p.PasswordHash).HasColumnType("varchar(250)").HasColumnName("PasswordHash").IsRequired();
 
         }

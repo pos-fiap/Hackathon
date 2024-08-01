@@ -16,7 +16,7 @@ namespace Hackathon.Infra.Data.Repositories
             return await dbSet
                 .Include(x => x.Role)
                 .Include(x => x.User)
-                .FirstOrDefaultAsync(x => x.User.Username == username);
+                .FirstOrDefaultAsync(x => x.User.Email == username);
         }
     }
 }

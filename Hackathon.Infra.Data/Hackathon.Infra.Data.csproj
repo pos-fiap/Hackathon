@@ -7,6 +7,21 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="EntitiesConfiguration\CustomerConfiguration.cs" />
+    <Compile Remove="EntitiesConfiguration\CustomerVehicleConfiguration.cs" />
+    <Compile Remove="EntitiesConfiguration\ParkingSpotConfiguration.cs" />
+    <Compile Remove="EntitiesConfiguration\ReservationConfiguration.cs" />
+    <Compile Remove="EntitiesConfiguration\ValetConfiguration.cs" />
+    <Compile Remove="EntitiesConfiguration\VehicleConfiguration.cs" />
+    <Compile Remove="Repositories\CustomerRepository.cs" />
+    <Compile Remove="Repositories\CustomerVehicleRepository.cs" />
+    <Compile Remove="Repositories\ParkingSpotRepository.cs" />
+    <Compile Remove="Repositories\ReservationRepository.cs" />
+    <Compile Remove="Repositories\ValetRepository.cs" />
+    <Compile Remove="Repositories\VehicleRepository.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.7">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
