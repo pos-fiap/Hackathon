@@ -12,18 +12,21 @@ namespace Hackathon.Application.Services
     public class PatientService : IPatientService
     {
         private readonly IPatientRepository _patientRepository;
+        private readonly IPersonRepository _personRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IValidator<PatientDTO> _patientDtoValidator;
+        private readonly IValidator<PatientDto> _patientDtoValidator;
         private readonly IValidator<PatientUpdateDTO> _patientUpdateDtoValidator;
 
         public PatientService(IPatientRepository patientRepository,
+                           IPersonRepository personRepository,
                            IUnitOfWork unitOfWork,
                            IMapper mapper,
                            IValidator<PatientUpdateDTO> patientUpdateDtoValidator,
-                           IValidator<PatientDTO> patientDtoValidator)
+                           IValidator<PatientDto> patientDtoValidator)
         {
             _patientRepository = patientRepository;
+            _personRepository = personRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _patientDtoValidator = patientDtoValidator;
@@ -52,63 +55,25 @@ namespace Hackathon.Application.Services
             return response;
         }
 
-        public async Task<BaseOutput<Patient>> Get(PatientDTO patientDto)
-        {
-            BaseOutput<Patient> response = new();
-
-            var validationResult = _patientDtoValidator.Validate(patientDto);
-            if (!validationResult.IsValid)
-            {
-                validationResult.Errors.ForEach(x => response.AddError(x.ErrorMessage));
-                return response;
-            }
-
-            IEnumerable<Patient> patient = await _patientRepository.GetAsync(x => x.Name == patientDto.Name, true);
-
-            response.Response = patient.FirstOrDefault() ?? new Patient();
-            return response;
-        }
-
-
-        public async Task<BaseOutput<int>> Create(PatientDTO patientDto)
+        
+        public async Task<BaseOutput<int>> Create(PatientDto patientDto)
         {
             BaseOutput<int> response = new();
 
             ValidationUtil.ValidateClass(patientDto, _patientDtoValidator, response);
 
-            IList<Patient> patient = _patientRepository.GetPatientByDocument(patientDto.Document);
+            IList<Person> person = _personRepository.GetPersonByDocument(patientDto.PersonalInformations.Document);
 
             if (person.Any())
             {
                 response.AddError($"There is an active person with the document provided (Name: {person.First().Name}), please reuse it to register.");
             }
 
-            if (response.Errors.Any())
+            IEnumerable<Patient> patients = await _patientRepository.GetAsync(x => x.Person.CPF == patientDto.PersonalInformations.Document, true);
+
+            if (patients.Any())
             {
-                return response;
-            }
-
-            Person personMapped = _mapper.Map<Person>(personDto);
-
-            await _personRepository.AddAsync(personMapped);
-            await _unitOfWork.CommitAsync();
-
-            response.Response = personMapped.Id;
-
-            return response;
-        }
-
-        public async Task<BaseOutput<Person>> Update(PersonUpdateDTO personDto)
-        {
-            BaseOutput<Person> response = new();
-
-            ValidationUtil.ValidateClass(personDto, _personUpdateDtoValidator, response);
-
-            Person personMapped = _mapper.Map<Person>(personDto);
-
-            if (!await Verify(personMapped.Id))
-            {
-                response.AddError("Not Found!");
+                response.AddError($"There is an patient with the CPF provided.");
             }
 
             if (response.Errors.Any())
@@ -116,29 +81,77 @@ namespace Hackathon.Application.Services
                 return response;
             }
 
-            _personRepository.Update(personMapped);
+            Patient patientMapped = _mapper.Map<Patient>(patientDto);
+
+            await _patientRepository.AddAsync(patientMapped);
             await _unitOfWork.CommitAsync();
 
-            response.Response = personMapped;
+            response.Response = patientMapped.Id;
 
             return response;
         }
 
-        public async Task<bool> Verify(string name)
+        public async Task<BaseOutput<bool>> Update(PatientDto patientDto)
         {
-            return await _personRepository.ExistsAsync(x => x.Name == name);
+            BaseOutput<bool> response = new();
+
+            ValidationUtil.ValidateClass(patientDto, _patientDtoValidator, response);
+
+            IList<Person> person = _personRepository.GetPersonByDocument(patientDto.PersonalInformations.Document);
+
+            if (person.Any())
+            {
+                response.AddError($"There is an active person with the document provided (Name: {person.First().Name}), please reuse it to register.");
+            }
+
+            Patient patientMapped = _mapper.Map<Patient>(patientDto);
+
+            if (!await VerifyUser(patientMapped.Id))
+            {
+                response.AddError("Not Found");
+            }
+
+            if (response.Errors.Any())
+            {
+                return response;
+            }
+
+            _patientRepository.Update(patientMapped);
+            await _unitOfWork.CommitAsync();
+
+            response.Response = true;
+
+            return response;
         }
 
-        public async Task<bool> Verify(int Id)
+        public async Task<BaseOutput<bool>> Delete(int id)
         {
-            return await _personRepository.ExistsAsync(x => x.Id == Id);
+            BaseOutput<bool> response = new();
+
+            Patient patient = await _patientRepository.GetSingleAsync(exp => exp.Id == id, true);
+
+            if (patient is null)
+            {
+                response.AddError("Patient not found!");
+            }
+
+            if (response.Errors.Any())
+            {
+                return response;
+            }
+
+            Patient patientMapped = _mapper.Map<Patient>(patient);
+
+            _patientRepository.Delete(patientMapped);
+            await _unitOfWork.CommitAsync();
+
+            response.Response = true;
+
+            return response;
         }
-
-
-
-        public Task<Person> Get(string name)
+        public async Task<bool> VerifyUser(int Id)
         {
-            return _personRepository.GetSingleAsync(x => x.Name == name, true);
+            return await _patientRepository.ExistsAsync(x => x.Id == Id);
         }
 
     }
