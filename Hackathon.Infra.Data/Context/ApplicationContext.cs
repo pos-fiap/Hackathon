@@ -66,7 +66,7 @@ namespace Hackathon.Infra.Data.Context
 
             modelBuilder.Entity<User>().HasData(
                 new User { Id = 1, Email = "ricardomacieldasilva@hotmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("1"), PersonId = 1 },
-                new User { Id = 2, Email = "patienty@hotmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("1"), PersonId = 1 }
+                new User { Id = 2, Email = "patienty@hotmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("1"), PersonId = 2 }
             );
 
             modelBuilder.Entity<UserRole>().HasData(
@@ -79,7 +79,7 @@ namespace Hackathon.Infra.Data.Context
                                );
 
             modelBuilder.Entity<Patient>().HasData(
-                                              new Patient { Id = 1, PersonId = 2, HealthInsuranceNumber = "Unimed" }
+                                              new Patient { Id = 1, PersonId = 2, HealthInsuranceNumber = "12313231231" }
                                );
         }
 
