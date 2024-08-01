@@ -9,6 +9,7 @@
   <ItemGroup>
     <Compile Remove="Entities\Customer.cs" />
     <Compile Remove="Entities\CustomerVehicle.cs" />
+    <Compile Remove="Entities\Login.cs" />
     <Compile Remove="Entities\ParkingSpot.cs" />
     <Compile Remove="Entities\Reservation.cs" />
     <Compile Remove="Entities\Valet.cs" />
