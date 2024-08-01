@@ -62,14 +62,14 @@ namespace Hackathon.Application.Services
 
             ValidationUtil.ValidateClass(patientDto, _patientDtoValidator, response);
 
-            IList<Person> person = _personRepository.GetPersonByDocument(patientDto.PersonalInformations.Document);
+            IList<Person> person = _personRepository.GetPersonByDocument(patientDto.PersonalInformations.CPF);
 
             if (person.Any())
             {
                 response.AddError($"There is an active person with the document provided (Name: {person.First().Name}), please reuse it to register.");
             }
 
-            IEnumerable<Patient> patients = await _patientRepository.GetAsync(x => x.Person.CPF == patientDto.PersonalInformations.Document, true);
+            IEnumerable<Patient> patients = await _patientRepository.GetAsync(x => x.Person.CPF == patientDto.PersonalInformations.CPF, true);
 
             if (patients.Any())
             {
@@ -97,7 +97,7 @@ namespace Hackathon.Application.Services
 
             ValidationUtil.ValidateClass(patientDto, _patientDtoValidator, response);
 
-            IList<Person> person = _personRepository.GetPersonByDocument(patientDto.PersonalInformations.Document);
+            IList<Person> person = _personRepository.GetPersonByDocument(patientDto.PersonalInformations.CPF);
 
             if (person.Any())
             {

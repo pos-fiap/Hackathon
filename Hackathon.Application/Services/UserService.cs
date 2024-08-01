@@ -97,7 +97,7 @@ namespace Hackathon.Application.Services
 
             ValidationUtil.ValidateClass(userDto, _userDtoValidator, response);
 
-            IList<Person> person = _personRepository.GetPersonByDocument(userDto.PersonalInformations.Document);
+            IList<Person> person = _personRepository.GetPersonByDocument(userDto.PersonalInformations.CPF);
 
             if (person.Any())
             {
