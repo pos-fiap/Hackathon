@@ -9,7 +9,7 @@ namespace Hackathon.Application.Mappings
         public PersonProfile()
         {
             CreateMap<Person, PersonDTO>().ReverseMap();
-            CreateMap<Person, PersonUpdateDTO>().ReverseMap();
+            //CreateMap<Person, PersonUpdateDTO>().ReverseMap();
         }
     }
 }
