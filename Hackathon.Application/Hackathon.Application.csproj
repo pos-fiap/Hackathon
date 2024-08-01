@@ -10,7 +10,6 @@
     <Compile Remove="DTOs\CustomerDto.cs" />
     <Compile Remove="DTOs\CustomerVehicleDto.cs" />
     <Compile Remove="DTOs\ParkingSpotDto.cs" />
-    <Compile Remove="DTOs\PersonDto.cs" />
     <Compile Remove="DTOs\PersonUpdateDto.cs" />
     <Compile Remove="DTOs\ReservationDto.cs" />
     <Compile Remove="DTOs\ValetDto.cs" />
@@ -18,6 +17,7 @@
     <Compile Remove="Interfaces\ICustomerService.cs" />
     <Compile Remove="Interfaces\ICustomerVehicleService.cs" />
     <Compile Remove="Interfaces\IParkingSpotService.cs" />
+    <Compile Remove="Interfaces\IPersonService.cs" />
     <Compile Remove="Interfaces\IReservationService.cs" />
     <Compile Remove="Interfaces\IValetService.cs" />
     <Compile Remove="Interfaces\IVehicleService.cs" />
@@ -30,12 +30,15 @@
     <Compile Remove="Services\CustomerService.cs" />
     <Compile Remove="Services\CustomerVehicleService.cs" />
     <Compile Remove="Services\ParkingSpotService.cs" />
+    <Compile Remove="Services\PersonService.cs" />
     <Compile Remove="Services\ReservationService.cs" />
     <Compile Remove="Services\ValetService.cs" />
     <Compile Remove="Services\VehicleService.cs" />
     <Compile Remove="Validator\CustomerValidator.cs" />
     <Compile Remove="Validator\CustomerVehicleValidator.cs" />
     <Compile Remove="Validator\ParkingSpotValidator.cs" />
+    <Compile Remove="Validator\PersonUpdateValidator.cs" />
+    <Compile Remove="Validator\PersonValidator.cs" />
     <Compile Remove="Validator\ReservationValidator.cs" />
     <Compile Remove="Validator\ValetValidator.cs" />
     <Compile Remove="Validator\VehicleValidator.cs" />
