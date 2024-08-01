@@ -97,7 +97,7 @@ namespace Hackathon.Application.Services
 
             ValidationUtil.ValidateClass(userDto, _userDtoValidator, response);
 
-            IList<Person> person = _personRepository.GetPersonByDocument(userDto.PersonalInformations.Document);
+            IList<Person> person = _personRepository.GetPersonByDocument(userDto.PersonalInformations.CPF);
 
             if (person.Any())
             {
@@ -128,8 +128,6 @@ namespace Hackathon.Application.Services
             User user = await _userRepository.GetSingleAsync(x => x.Id == userDto.Id, true);
 
             ValidationUtil.ValidateClass(userDto, _userUpdateDtoValidator, response);
-
-
 
             if (user is null)
             {
