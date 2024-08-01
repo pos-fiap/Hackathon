@@ -14,6 +14,7 @@ namespace Hackathon.Infra.Ioc.Services
             services.AddScoped<IUserRoleRepository, UserRoleRepository>();
             services.AddScoped<IRoleRepository, RoleRepository>();
             services.AddScoped<IRoleAccessRepository, RoleAccessRepository>();
+            services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }
