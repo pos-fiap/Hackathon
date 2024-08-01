@@ -8,11 +8,21 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
     {
         public void Configure(EntityTypeBuilder<User> builder)
         {
-            builder.ToTable("User");
+            builder.ToTable(nameof(User));
 
+            builder.HasKey(x => x.Id);
 
-            builder.Property(p => p.Email).HasColumnType("varchar(50)").HasColumnName("Username").IsRequired();
-            builder.Property(p => p.PasswordHash).HasColumnType("varchar(250)").HasColumnName("PasswordHash").IsRequired();
+            builder.Property(p => p.PersonId).IsRequired();
+
+            builder.Property(p => p.Email)
+                   .HasColumnType("varchar(50)")
+                   .IsRequired();
+
+            builder.Property(p => p.PasswordHash)
+                   .HasColumnType("varchar(250)")
+                   .IsRequired();
+
+            builder.HasOne(p => p.Person).WithOne().HasForeignKey<User>(p => p.PersonId);
 
         }
     }

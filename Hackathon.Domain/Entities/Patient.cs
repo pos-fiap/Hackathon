@@ -3,6 +3,7 @@
     public class Patient : BaseModel
     {
         public int Id { get; set; }
+        public string? HealthInsurance { get; set; }
         public int PersonId { get; set; }
 
         public virtual Person? Person { get; set; }

@@ -14,13 +14,13 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
 
             builder.Property(x => x.RoleId)
                 .HasColumnType("int")
-                .HasColumnName("RoleId")
                 .IsRequired();
 
             builder.Property(x => x.Route)
                 .HasColumnType("varchar(50)")
-                .HasColumnName("Route")
                 .IsRequired();
+
+            builder.HasOne(p => p.Role).WithMany().HasForeignKey(p => p.RoleId);
         }
     }
 }
