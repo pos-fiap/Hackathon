@@ -1,4 +1,6 @@
-﻿namespace Hackathon.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace Hackathon.Domain.Entities
 {
     public class Doctor : BaseModel
     {
@@ -10,6 +12,7 @@
         public virtual Person? Person { get; set; }
         public virtual DefaultAvailability? DefaultAvailability { get; set; }
         public virtual ICollection<SpecificAvailability>? SpecificAvailabilities { get; set; }
+        [JsonIgnore]
         public virtual ICollection<Appointment>? Appointments { get; set; }
 
     }

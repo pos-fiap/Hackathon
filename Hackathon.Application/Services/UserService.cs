@@ -6,6 +6,7 @@ using Hackathon.Application.Interfaces;
 using Hackathon.Application.Models;
 using Hackathon.Application.Utils;
 using Hackathon.Domain.Entities;
+using Hackathon.Domain.Enums;
 using Hackathon.Domain.Interfaces;
 
 namespace Hackathon.Application.Services
@@ -70,7 +71,7 @@ namespace Hackathon.Application.Services
                 return response;
             }
 
-            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == loginDto.Username, true);
+            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == loginDto.Username && x.Person.Status == Status.Active, true);
 
             response.Response = users.FirstOrDefault() ?? new User();
             return response;

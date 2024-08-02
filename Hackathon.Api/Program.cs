@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
+using System.Text.Json.Serialization;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +14,12 @@ string connectionString = builder.Configuration.GetConnectionString("DockerfileD
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()).UseLazyLoadingProxies());
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+                                .AddJsonOptions(options =>
+                            {
+                                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                                options.JsonSerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+                            });
 builder.Services.AddDIConfiguration();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddEndpointsApiExplorer();

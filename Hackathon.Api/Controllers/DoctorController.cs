@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Hackathon.Api.Controllers
 {
-    [CustomAuthorization]
+    //[CustomAuthorization]
     public class DoctorController : BaseController
     {
         private readonly IDoctorService _doctorService;
@@ -43,7 +43,7 @@ namespace Hackathon.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(DoctorDto doctor)
+        public async Task<IActionResult> Post(PostDoctorDto doctor)
         {
             try
             {

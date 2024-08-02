@@ -1,4 +1,6 @@
-﻿namespace Hackathon.Domain.Entities
+﻿using System.Text.Json.Serialization;
+
+namespace Hackathon.Domain.Entities
 {
     public class DefaultAvailability
     {
@@ -40,6 +42,7 @@
         public TimeSpan? LunchStartSaturday { get; set; }
         public TimeSpan? LunchEndSaturday { get; set; }
 
+        [JsonIgnore]
         public virtual Doctor? Doctor { get; set; }
     }
 }

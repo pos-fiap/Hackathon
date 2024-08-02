@@ -8,7 +8,7 @@ namespace Hackathon.Application.Interfaces
     {
         Task<BaseOutput<List<Doctor>>> Get();
         Task<BaseOutput<Doctor>> Get(int id);
-        Task<BaseOutput<int>> Create(DoctorDto doctorDto);
+        Task<BaseOutput<int>> Create(PostDoctorDto doctorDto);
         Task<BaseOutput<bool>> Update(DoctorDto doctorDto);
         Task<BaseOutput<bool>> Delete(int id);
 
