@@ -56,8 +56,8 @@ namespace Hackathon.Infra.Data.Context
                 new RoleAccess { Id = 2, RoleId = 1, Route = "Role" },
                 new RoleAccess { Id = 3, RoleId = 1, Route = "User" },
                 new RoleAccess { Id = 4, RoleId = 1, Route = "UserRole" },
-                new RoleAccess { Id = 5, RoleId = 2, Route = "Patient" },
-                new RoleAccess { Id = 5, RoleId = 2, Route = "Auth/RefreshToken" }
+                new RoleAccess { Id = 5, RoleId = 2, Route = "Auth/RefreshToken" },
+                new RoleAccess { Id = 6, RoleId = 2, Route = "Patient" }
             );
 
             modelBuilder.Entity<Person>().HasData(

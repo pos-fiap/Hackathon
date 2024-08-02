@@ -20,7 +20,7 @@ namespace Hackathon.Application.Services
         public PatientService(IPatientRepository patientRepository,
                            IPersonRepository personRepository,
                            IUnitOfWork unitOfWork,
-                           IMapper mapper,                          
+                           IMapper mapper,
                            IValidator<PatientDto> patientDtoValidator)
         {
             _patientRepository = patientRepository;
@@ -28,7 +28,7 @@ namespace Hackathon.Application.Services
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _patientDtoValidator = patientDtoValidator;
-            
+
         }
 
         public async Task<BaseOutput<List<Patient>>> Get()
