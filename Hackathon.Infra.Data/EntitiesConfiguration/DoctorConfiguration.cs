@@ -20,10 +20,13 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
 
             builder.Property(p => p.PersonId).IsRequired();
 
-            builder.HasOne(p => p.Person).WithOne().HasForeignKey<Doctor>(p => p.PersonId);
-            builder.HasOne(p => p.DefaultAvailability).WithOne().HasForeignKey<Doctor>(p => p.DefaultAvailabilityId);
-            builder.HasOne(p => p.SpecificAvailability).WithOne().HasForeignKey<Doctor>(p => p.SpecificAvailabilityId);
+            builder.HasOne(p => p.Person)
+                   .WithOne()
+                   .HasForeignKey<Doctor>(p => p.PersonId);
 
+            builder.HasOne(p => p.DefaultAvailability)
+                   .WithOne()
+                   .HasForeignKey<DefaultAvailability>(p => p.Id);
         }
     }
 }

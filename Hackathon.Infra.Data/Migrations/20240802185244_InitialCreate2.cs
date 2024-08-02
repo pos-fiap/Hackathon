@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hackathon.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate1 : Migration
+    public partial class InitialCreate2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -41,6 +41,27 @@ namespace Hackathon.Infra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Role", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Doctor",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CRM = table.Column<string>(type: "varchar(50)", nullable: false),
+                    Specialty = table.Column<string>(type: "varchar(250)", nullable: false),
+                    PersonId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Doctor", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Doctor_Person_PersonId",
+                        column: x => x.PersonId,
+                        principalTable: "Person",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -107,60 +128,10 @@ namespace Hackathon.Infra.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "UserRole",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<int>(type: "int", nullable: false),
-                    RoleId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_UserRole", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_UserRole_Role_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Role",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_UserRole_User_UserId",
-                        column: x => x.UserId,
-                        principalTable: "User",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Appointment",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DoctorId = table.Column<int>(type: "int", nullable: false),
-                    PatientId = table.Column<int>(type: "int", nullable: false),
-                    AppointmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
-                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Appointment", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Appointment_Patient_PatientId",
-                        column: x => x.PatientId,
-                        principalTable: "Patient",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "DefaultAvailability",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Id = table.Column<int>(type: "int", nullable: false),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     StartSunday = table.Column<TimeSpan>(type: "time", nullable: true),
                     EndSunday = table.Column<TimeSpan>(type: "time", nullable: true),
@@ -194,33 +165,16 @@ namespace Hackathon.Infra.Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_DefaultAvailability", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Doctor",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CRM = table.Column<string>(type: "varchar(50)", nullable: false),
-                    Specialty = table.Column<string>(type: "varchar(250)", nullable: false),
-                    PersonId = table.Column<int>(type: "int", nullable: false),
-                    DefaultAvailabilityId = table.Column<int>(type: "int", nullable: false),
-                    SpecificAvailabilityId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Doctor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Doctor_DefaultAvailability_DefaultAvailabilityId",
-                        column: x => x.DefaultAvailabilityId,
-                        principalTable: "DefaultAvailability",
+                        name: "FK_DefaultAvailability_Doctor_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Doctor_Person_PersonId",
-                        column: x => x.PersonId,
-                        principalTable: "Person",
+                        name: "FK_DefaultAvailability_Doctor_Id",
+                        column: x => x.Id,
+                        principalTable: "Doctor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -248,6 +202,61 @@ namespace Hackathon.Infra.Data.Migrations
                         onDelete: ReferentialAction.Restrict);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Appointment",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorId = table.Column<int>(type: "int", nullable: false),
+                    PatientId = table.Column<int>(type: "int", nullable: false),
+                    AppointmentDate = table.Column<DateTime>(type: "date", nullable: false),
+                    StartTime = table.Column<TimeSpan>(type: "time", nullable: false),
+                    EndTime = table.Column<TimeSpan>(type: "time", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Appointment", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Appointment_Doctor_DoctorId",
+                        column: x => x.DoctorId,
+                        principalTable: "Doctor",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Appointment_Patient_PatientId",
+                        column: x => x.PatientId,
+                        principalTable: "Patient",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "UserRole",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<int>(type: "int", nullable: false),
+                    RoleId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserRole", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_UserRole_Role_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "Role",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_UserRole_User_UserId",
+                        column: x => x.UserId,
+                        principalTable: "User",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.InsertData(
                 table: "Person",
                 columns: new[] { "Id", "CPF", "Name", "Status" },
@@ -262,14 +271,14 @@ namespace Hackathon.Infra.Data.Migrations
                 columns: new[] { "Id", "AlterDate", "CreateDate", "Description" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6362), new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6349), "Doctor" },
-                    { 2, new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6364), new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6363), "Patient" }
+                    { 1, new DateTime(2024, 8, 2, 15, 52, 44, 289, DateTimeKind.Local).AddTicks(2975), new DateTime(2024, 8, 2, 15, 52, 44, 289, DateTimeKind.Local).AddTicks(2962), "Doctor" },
+                    { 2, new DateTime(2024, 8, 2, 15, 52, 44, 289, DateTimeKind.Local).AddTicks(3012), new DateTime(2024, 8, 2, 15, 52, 44, 289, DateTimeKind.Local).AddTicks(3011), "Patient" }
                 });
 
             migrationBuilder.InsertData(
                 table: "Doctor",
-                columns: new[] { "Id", "CRM", "DefaultAvailabilityId", "PersonId", "Specialty", "SpecificAvailabilityId" },
-                values: new object[] { 1, "123456", 0, 1, "Clinico Geral", 0 });
+                columns: new[] { "Id", "CRM", "PersonId", "Specialty" },
+                values: new object[] { 1, "123456", 1, "Clinico Geral" });
 
             migrationBuilder.InsertData(
                 table: "Patient",
@@ -294,8 +303,8 @@ namespace Hackathon.Infra.Data.Migrations
                 columns: new[] { "Id", "Email", "PasswordHash", "PersonId", "RefreshToken", "RefreshTokenExpiryDate" },
                 values: new object[,]
                 {
-                    { 1, "ricardomacieldasilva@hotmail.com", "$2a$11$68BoFZuJrkelJRAJl2.6muueGTr17Cg6zP9djJSDHm0lTgh595ms.", 1, null, null },
-                    { 2, "patienty@hotmail.com", "$2a$11$ASdX59DOIQnNE1C.MfQ61u7NSD7DfM7rY7mKkKeziLv7bSHQoijPy", 2, null, null }
+                    { 1, "ricardomacieldasilva@hotmail.com", "$2a$11$zoXVRFosCDS9re6sLdUS/.RUEZcU0H/Gma/TQivgceRVX5VIxH8Hi", 1, null, null },
+                    { 2, "patienty@hotmail.com", "$2a$11$B0xvfCpsQx3k6PHPYg1O0O7uCLxxwDynmhQqda/QCi6vwCQOfl5kO", 2, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -349,21 +358,9 @@ namespace Hackathon.Infra.Data.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Doctor_DefaultAvailabilityId",
-                table: "Doctor",
-                column: "DefaultAvailabilityId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Doctor_PersonId",
                 table: "Doctor",
                 column: "PersonId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Doctor_SpecificAvailabilityId",
-                table: "Doctor",
-                column: "SpecificAvailabilityId",
                 unique: true);
 
             migrationBuilder.CreateIndex(
@@ -380,8 +377,7 @@ namespace Hackathon.Infra.Data.Migrations
             migrationBuilder.CreateIndex(
                 name: "IX_SpecificAvailability_DoctorId",
                 table: "SpecificAvailability",
-                column: "DoctorId",
-                unique: true);
+                column: "DoctorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_User_PersonId",
@@ -398,48 +394,22 @@ namespace Hackathon.Infra.Data.Migrations
                 name: "IX_UserRole_UserId",
                 table: "UserRole",
                 column: "UserId");
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Appointment_Doctor_DoctorId",
-                table: "Appointment",
-                column: "DoctorId",
-                principalTable: "Doctor",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_DefaultAvailability_Doctor_DoctorId",
-                table: "DefaultAvailability",
-                column: "DoctorId",
-                principalTable: "Doctor",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
-
-            migrationBuilder.AddForeignKey(
-                name: "FK_Doctor_SpecificAvailability_SpecificAvailabilityId",
-                table: "Doctor",
-                column: "SpecificAvailabilityId",
-                principalTable: "SpecificAvailability",
-                principalColumn: "Id",
-                onDelete: ReferentialAction.Restrict);
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropForeignKey(
-                name: "FK_DefaultAvailability_Doctor_DoctorId",
-                table: "DefaultAvailability");
-
-            migrationBuilder.DropForeignKey(
-                name: "FK_SpecificAvailability_Doctor_DoctorId",
-                table: "SpecificAvailability");
-
             migrationBuilder.DropTable(
                 name: "Appointment");
 
             migrationBuilder.DropTable(
+                name: "DefaultAvailability");
+
+            migrationBuilder.DropTable(
                 name: "RoleAccess");
+
+            migrationBuilder.DropTable(
+                name: "SpecificAvailability");
 
             migrationBuilder.DropTable(
                 name: "UserRole");
@@ -448,22 +418,16 @@ namespace Hackathon.Infra.Data.Migrations
                 name: "Patient");
 
             migrationBuilder.DropTable(
+                name: "Doctor");
+
+            migrationBuilder.DropTable(
                 name: "Role");
 
             migrationBuilder.DropTable(
                 name: "User");
 
             migrationBuilder.DropTable(
-                name: "Doctor");
-
-            migrationBuilder.DropTable(
-                name: "DefaultAvailability");
-
-            migrationBuilder.DropTable(
                 name: "Person");
-
-            migrationBuilder.DropTable(
-                name: "SpecificAvailability");
         }
     }
 }

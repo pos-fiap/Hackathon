@@ -26,7 +26,10 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
                    .HasColumnType("int")
                    .IsRequired();
 
-            builder.HasOne(p => p.Doctor).WithOne().HasForeignKey<SpecificAvailability>(p => p.DoctorId);
+            builder.HasOne(a => a.Doctor)
+                   .WithMany(d => d.SpecificAvailabilities)
+                   .HasForeignKey(a => a.DoctorId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
         }
     }

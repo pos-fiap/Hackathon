@@ -47,7 +47,10 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
             builder.Property(da => da.LunchStartSaturday).HasColumnType("time");
             builder.Property(da => da.LunchEndSaturday).HasColumnType("time");
 
-            builder.HasOne(p => p.Doctor).WithOne().HasForeignKey<DefaultAvailability>(p => p.DoctorId);
+            builder.HasOne(da => da.Doctor)
+                   .WithOne()
+                   .HasForeignKey<DefaultAvailability>(da => da.DoctorId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(da => da.DoctorId).HasDatabaseName("IX_DefaultAvailabilities_DoctorId");
         }

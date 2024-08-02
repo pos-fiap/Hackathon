@@ -12,7 +12,9 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
 
             builder.HasKey(a => a.Id);
 
-            builder.Property(a => a.AppointmentDate).IsRequired();
+            builder.Property(a => a.DoctorId).HasColumnType("int").IsRequired();
+            builder.Property(a => a.PatientId).HasColumnType("int").IsRequired();
+            builder.Property(a => a.AppointmentDate).HasColumnType("date").IsRequired();
             builder.Property(a => a.StartTime).IsRequired().HasColumnType("time");
             builder.Property(a => a.EndTime).IsRequired().HasColumnType("time");
 
