@@ -1,8 +1,9 @@
-﻿using Hackaton.Infra.Messaging.Interfaces;
-using Hackaton.Infra.Messaging.Models;
+﻿using Hackathon.Infra.Messaging.Interfaces;
+using Hackathon.Infra.Messaging.Models;
+using Hackaton.Infra.Messaging.Services;
 using Microsoft.Extensions.Configuration;
 
-namespace Hackaton.Infra.Messaging.Services
+namespace Hackathon.Infra.Messaging.Services
 {
     public class MessagingService : IMessaging
     {

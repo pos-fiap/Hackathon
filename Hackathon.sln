@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hackathon.Infra.Ioc", "Hack
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Hackathon.Api", "Hackathon.Api\Hackathon.Api.csproj", "{332C8AE1-FE45-4CC9-A850-F2D3D38BACFE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackaton.Infra.Messaging", "ClassLibrary1\Hackaton.Infra.Messaging.csproj", "{9FD2918F-1368-452B-AE6F-846A61887194}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hackathon.Infra.Messaging", "ClassLibrary1\Hackathon.Infra.Messaging.csproj", "{9FD2918F-1368-452B-AE6F-846A61887194}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

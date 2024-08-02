@@ -1,6 +1,6 @@
-﻿using Hackaton.Infra.Messaging.Models;
+﻿using Hackathon.Infra.Messaging.Models;
 
-namespace Hackaton.Infra.Messaging.Interfaces
+namespace Hackathon.Infra.Messaging.Interfaces
 {
     public interface IMessaging
     {

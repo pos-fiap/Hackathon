@@ -1,4 +1,4 @@
-﻿namespace Hackaton.Infra.Messaging.Models
+﻿namespace Hackathon.Infra.Messaging.Models
 {
     public class EmailMessage
     {

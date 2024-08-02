@@ -1,9 +1,9 @@
-﻿using Hackaton.Infra.Messaging.Models;
+﻿using Hackathon.Infra.Messaging.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 
-namespace Hackaton.Infra.Messaging.Services
+namespace Hackathon.Infra.Messaging.Services
 {
     public class EmailService(IConfiguration configuration)
     {
