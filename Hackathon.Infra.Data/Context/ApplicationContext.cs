@@ -126,7 +126,7 @@ namespace Hackathon.Infra.Data.Context
             {
                 Id = 2,
                 DoctorId = 1,
-                Date = new DateTime(2024, 8, 22), // Data especial, médico estará disponível de 10:00 às 16:00
+                Date = new DateTime(2024, 8, 18), // Data especial, médico estará disponível de 10:00 às 16:00
                 StartTime = new TimeSpan(10, 0, 0),
                 EndTime = new TimeSpan(16, 0, 0),
                 IsAvailable = true
