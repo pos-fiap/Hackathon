@@ -1,7 +1,10 @@
 ﻿using Hackathon.Api.Authorize;
+using Hackathon.Application.BaseResponse;
 using Hackathon.Application.DTOs;
 using Hackathon.Application.Interfaces;
+using Hackathon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Hackathon.Api.Controllers
 {
@@ -16,6 +19,9 @@ namespace Hackathon.Api.Controllers
         }
 
         [HttpGet("all")]
+        [ProducesResponseType(typeof(BaseOutput<List<Patient>>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get()
         {
             try
@@ -29,6 +35,9 @@ namespace Hackathon.Api.Controllers
         }
 
         [HttpGet]
+        [ProducesResponseType(typeof(BaseOutput<Patient>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Get(int id)
         {
             try
@@ -43,6 +52,9 @@ namespace Hackathon.Api.Controllers
 
 
         [HttpPost]
+        [ProducesResponseType(typeof(BaseOutput<int>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Post(PostPatientDto patient)
         {
             try
@@ -57,6 +69,9 @@ namespace Hackathon.Api.Controllers
 
 
         [HttpPut]
+        [ProducesResponseType(typeof(BaseOutput<bool>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Put(PatientDto patient)
         {
             try
@@ -70,6 +85,9 @@ namespace Hackathon.Api.Controllers
         }
 
         [HttpDelete]
+        [ProducesResponseType(typeof(BaseOutput<bool>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Delete(int id)
         {
             try

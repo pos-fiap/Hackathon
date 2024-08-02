@@ -23,6 +23,7 @@ namespace Hackathon.Api.Controllers
         [HttpPost("login")]
         [ProducesResponseType(typeof(BaseOutput<TokenDto>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> Login([FromBody] LoginDto loginDto)
         {
             try
@@ -61,6 +62,9 @@ namespace Hackathon.Api.Controllers
 
         [HttpPost("refresh")]
         [CustomAuthorization(CheckAction = true)]
+        [ProducesResponseType(typeof(BaseOutput<TokenDto>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
         public async Task<IActionResult> RefreshToken(TokenDto tokenDto)
         {
             try
