@@ -17,8 +17,7 @@ namespace Hackathon.Infra.Ioc.Services
             services.AddScoped<IValidator<RoleUpdateDto>, RoleUpdateValidator>();
             services.AddScoped<IValidator<LoginDto>, LoginValidator>();
             services.AddScoped<IValidator<PatientDto>, PatientValidator>();
-            //services.AddScoped<IValidator<PersonDTO>, PersonValidator>();
-            //services.AddScoped<IValidator<PersonUpdateDTO>, PersonUpdateValidator>();
+            services.AddScoped<IValidator<DoctorDto>, DoctorValidator>();
         }
     }
 }
