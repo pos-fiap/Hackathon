@@ -82,6 +82,36 @@ namespace Hackathon.Infra.Data.Context
             modelBuilder.Entity<Patient>().HasData(
                                new Patient { Id = 1, PersonId = 2, HealthInsuranceNumber = "12313231231" }
                                );
+
+            modelBuilder.Entity<DefaultAvailability>().HasData(new DefaultAvailability
+            {
+                Id = 1,
+                DoctorId = 1,
+                StartMonday = new TimeSpan(8, 0, 0),
+                EndMonday = new TimeSpan(18, 0, 0),
+                LunchStartMonday = new TimeSpan(12, 0, 0),
+                LunchEndMonday = new TimeSpan(13, 0, 0),
+
+                StartTuesday = new TimeSpan(8, 0, 0),
+                EndTuesday = new TimeSpan(18, 0, 0),
+                LunchStartTuesday = new TimeSpan(12, 0, 0),
+                LunchEndTuesday = new TimeSpan(13, 0, 0),
+
+                StartWednesday = new TimeSpan(8, 0, 0),
+                EndWednesday = new TimeSpan(18, 0, 0),
+                LunchStartWednesday = new TimeSpan(12, 0, 0),
+                LunchEndWednesday = new TimeSpan(13, 0, 0),
+
+                StartThursday = new TimeSpan(8, 0, 0),
+                EndThursday = new TimeSpan(18, 0, 0),
+                LunchStartThursday = new TimeSpan(12, 0, 0),
+                LunchEndThursday = new TimeSpan(13, 0, 0),
+
+                StartFriday = new TimeSpan(8, 0, 0),
+                EndFriday = new TimeSpan(18, 0, 0),
+                LunchStartFriday = new TimeSpan(12, 0, 0),
+                LunchEndFriday = new TimeSpan(13, 0, 0)
+            });
         }
 
     }

@@ -17,14 +17,20 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
             builder.Property(a => a.EndTime).IsRequired().HasColumnType("time");
 
             builder.HasOne(a => a.Doctor)
-                .WithMany(d => d.Appointments)
-                .HasForeignKey(a => a.DoctorId)
-                .OnDelete(DeleteBehavior.Restrict);
+                   .WithMany(d => d.Appointments)
+                   .HasForeignKey(a => a.DoctorId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(a => a.Patient)
-                .WithMany(p => p.Appointments)
-                .HasForeignKey(a => a.PatientId)
-                .OnDelete(DeleteBehavior.Restrict);
+                   .WithMany(p => p.Appointments)
+                   .HasForeignKey(a => a.PatientId)
+                   .OnDelete(DeleteBehavior.Restrict);
+
+
+            builder.HasOne(a => a.Doctor)
+                   .WithMany(d => d.Appointments)
+                   .HasForeignKey(a => a.DoctorId)
+                   .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasIndex(a => new { a.DoctorId, a.AppointmentDate }).HasDatabaseName("IX_Appointments_DoctorId_AppointmentDate");
             builder.HasIndex(a => new { a.PatientId, a.AppointmentDate }).HasDatabaseName("IX_Appointments_PatientId_AppointmentDate");
