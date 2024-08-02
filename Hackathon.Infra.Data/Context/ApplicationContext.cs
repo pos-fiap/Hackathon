@@ -112,6 +112,25 @@ namespace Hackathon.Infra.Data.Context
                 LunchStartFriday = new TimeSpan(12, 0, 0),
                 LunchEndFriday = new TimeSpan(13, 0, 0)
             });
+
+            modelBuilder.Entity<SpecificAvailability>().HasData(new SpecificAvailability
+            {
+                Id = 1,
+                DoctorId = 1,
+                Date = new DateTime(2024, 8, 15), // Feriado, médico não estará disponível
+                StartTime = null,
+                EndTime = null,
+                IsAvailable = false
+            },
+            new SpecificAvailability
+            {
+                Id = 2,
+                DoctorId = 1,
+                Date = new DateTime(2024, 8, 22), // Data especial, médico estará disponível de 10:00 às 16:00
+                StartTime = new TimeSpan(10, 0, 0),
+                EndTime = new TimeSpan(16, 0, 0),
+                IsAvailable = true
+            });
         }
 
     }
