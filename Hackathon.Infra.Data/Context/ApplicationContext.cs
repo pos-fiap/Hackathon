@@ -80,7 +80,7 @@ namespace Hackathon.Infra.Data.Context
                                );
 
             modelBuilder.Entity<Patient>().HasData(
-                                              new Patient { Id = 1, PersonId = 2, HealthInsuranceNumber = "12313231231" }
+                               new Patient { Id = 1, PersonId = 2, HealthInsuranceNumber = "12313231231" }
                                );
         }
 
