@@ -15,7 +15,9 @@
     <Compile Remove="Controllers\ParkingSpotController.cs" />
     <Compile Remove="Controllers\PersonController.cs" />
     <Compile Remove="Controllers\ReservationController.cs" />
+    <Compile Remove="Controllers\RoleController.cs" />
     <Compile Remove="Controllers\UserController.cs" />
+    <Compile Remove="Controllers\UserRoleController.cs" />
     <Compile Remove="Controllers\ValetController.cs" />
     <Compile Remove="Controllers\VehicleController.cs" />
   </ItemGroup>
