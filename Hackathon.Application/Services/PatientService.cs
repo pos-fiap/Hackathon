@@ -16,19 +16,21 @@ namespace Hackathon.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IValidator<PatientDto> _patientDtoValidator;
+        private readonly IValidator<PostPatientDto> _postPatientDtoValidator;
 
         public PatientService(IPatientRepository patientRepository,
                            IPersonRepository personRepository,
                            IUnitOfWork unitOfWork,
                            IMapper mapper,
-                           IValidator<PatientDto> patientDtoValidator)
+                           IValidator<PatientDto> patientDtoValidator,
+                           IValidator<PostPatientDto> postPatientDtoValidator)
         {
             _patientRepository = patientRepository;
             _personRepository = personRepository;
             _unitOfWork = unitOfWork;
             _mapper = mapper;
             _patientDtoValidator = patientDtoValidator;
-
+            _postPatientDtoValidator = postPatientDtoValidator;
         }
 
         public async Task<BaseOutput<List<Patient>>> Get()
@@ -54,11 +56,11 @@ namespace Hackathon.Application.Services
         }
 
 
-        public async Task<BaseOutput<int>> Create(PatientDto patientDto)
+        public async Task<BaseOutput<int>> Create(PostPatientDto patientDto)
         {
             BaseOutput<int> response = new();
 
-            ValidationUtil.ValidateClass(patientDto, _patientDtoValidator, response);
+            ValidationUtil.ValidateClass(patientDto, _postPatientDtoValidator, response);
 
             IList<Person> person = _personRepository.GetPersonByDocument(patientDto.PersonalInformations.CPF);
 

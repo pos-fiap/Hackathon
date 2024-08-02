@@ -10,4 +10,13 @@ namespace Hackathon.Application.Validator
             RuleFor(p => p.PersonalInformations.CPF).NotNull().WithMessage("CPF is a required field");
         }
     }
+
+    public class PostPatientValidator : AbstractValidator<PostPatientDto>
+    {
+        public PostPatientValidator()
+        {
+            RuleFor(p => p.PersonalInformations.CPF).NotNull().WithMessage("CPF is a required field");
+           
+        }
+    }
 }

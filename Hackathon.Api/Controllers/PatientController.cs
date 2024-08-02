@@ -43,7 +43,7 @@ namespace Hackathon.Api.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> Post(PatientDto patient)
+        public async Task<IActionResult> Post(PostPatientDto patient)
         {
             try
             {
