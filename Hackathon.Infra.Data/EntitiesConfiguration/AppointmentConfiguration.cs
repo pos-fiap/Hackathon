@@ -26,12 +26,6 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
                    .HasForeignKey(a => a.PatientId)
                    .OnDelete(DeleteBehavior.Restrict);
 
-
-            builder.HasOne(a => a.Doctor)
-                   .WithMany(d => d.Appointments)
-                   .HasForeignKey(a => a.DoctorId)
-                   .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasIndex(a => new { a.DoctorId, a.AppointmentDate }).HasDatabaseName("IX_Appointments_DoctorId_AppointmentDate");
             builder.HasIndex(a => new { a.PatientId, a.AppointmentDate }).HasDatabaseName("IX_Appointments_PatientId_AppointmentDate");
 

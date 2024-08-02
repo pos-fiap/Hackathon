@@ -17,18 +17,16 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
                    .IsRequired();
 
             builder.Property(p => p.StartTime)
-                   .HasColumnType("time")
-                   .IsRequired();
+                   .HasColumnType("time");
 
             builder.Property(p => p.EndTime)
-                   .HasColumnType("time")
-                   .IsRequired();
+                   .HasColumnType("time");
 
             builder.Property(p => p.DoctorId)
                    .HasColumnType("int")
                    .IsRequired();
 
-            builder.HasOne(p => p.Doctor).WithMany().HasForeignKey(p => p.DoctorId);
+            builder.HasOne(p => p.Doctor).WithOne().HasForeignKey<SpecificAvailability>(p => p.DoctorId);
 
         }
     }

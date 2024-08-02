@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Hackathon.Infra.Data.Migrations
 {
     [DbContext(typeof(ApplicationContext))]
-    [Migration("20240801213437_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20240802173308_InitialCreate1")]
+    partial class InitialCreate1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,6 +60,44 @@ namespace Hackathon.Infra.Data.Migrations
                         .HasDatabaseName("IX_Appointments_PatientId_AppointmentDate");
 
                     b.ToTable("Appointment", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            AppointmentDate = new DateTime(2024, 8, 12, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = 1,
+                            EndTime = new TimeSpan(0, 10, 0, 0, 0),
+                            PatientId = 1,
+                            StartTime = new TimeSpan(0, 9, 0, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 2,
+                            AppointmentDate = new DateTime(2024, 8, 13, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = 1,
+                            EndTime = new TimeSpan(0, 15, 0, 0, 0),
+                            PatientId = 1,
+                            StartTime = new TimeSpan(0, 14, 0, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 3,
+                            AppointmentDate = new DateTime(2024, 8, 14, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = 1,
+                            EndTime = new TimeSpan(0, 12, 0, 0, 0),
+                            PatientId = 1,
+                            StartTime = new TimeSpan(0, 11, 0, 0, 0)
+                        },
+                        new
+                        {
+                            Id = 4,
+                            AppointmentDate = new DateTime(2024, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = 1,
+                            EndTime = new TimeSpan(0, 11, 0, 0, 0),
+                            PatientId = 1,
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0)
+                        });
                 });
 
             modelBuilder.Entity("Hackathon.Domain.Entities.DefaultAvailability", b =>
@@ -164,6 +202,33 @@ namespace Hackathon.Infra.Data.Migrations
                         .HasDatabaseName("IX_DefaultAvailabilities_DoctorId");
 
                     b.ToTable("DefaultAvailability", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DoctorId = 1,
+                            EndFriday = new TimeSpan(0, 18, 0, 0, 0),
+                            EndMonday = new TimeSpan(0, 18, 0, 0, 0),
+                            EndThursday = new TimeSpan(0, 18, 0, 0, 0),
+                            EndTuesday = new TimeSpan(0, 18, 0, 0, 0),
+                            EndWednesday = new TimeSpan(0, 18, 0, 0, 0),
+                            LunchEndFriday = new TimeSpan(0, 13, 0, 0, 0),
+                            LunchEndMonday = new TimeSpan(0, 13, 0, 0, 0),
+                            LunchEndThursday = new TimeSpan(0, 13, 0, 0, 0),
+                            LunchEndTuesday = new TimeSpan(0, 13, 0, 0, 0),
+                            LunchEndWednesday = new TimeSpan(0, 13, 0, 0, 0),
+                            LunchStartFriday = new TimeSpan(0, 12, 0, 0, 0),
+                            LunchStartMonday = new TimeSpan(0, 12, 0, 0, 0),
+                            LunchStartThursday = new TimeSpan(0, 12, 0, 0, 0),
+                            LunchStartTuesday = new TimeSpan(0, 12, 0, 0, 0),
+                            LunchStartWednesday = new TimeSpan(0, 12, 0, 0, 0),
+                            StartFriday = new TimeSpan(0, 8, 0, 0, 0),
+                            StartMonday = new TimeSpan(0, 8, 0, 0, 0),
+                            StartThursday = new TimeSpan(0, 8, 0, 0, 0),
+                            StartTuesday = new TimeSpan(0, 8, 0, 0, 0),
+                            StartWednesday = new TimeSpan(0, 8, 0, 0, 0)
+                        });
                 });
 
             modelBuilder.Entity("Hackathon.Domain.Entities.Doctor", b =>
@@ -178,6 +243,9 @@ namespace Hackathon.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(50)");
 
+                    b.Property<int>("DefaultAvailabilityId")
+                        .HasColumnType("int");
+
                     b.Property<int>("PersonId")
                         .HasColumnType("int");
 
@@ -185,9 +253,18 @@ namespace Hackathon.Infra.Data.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(250)");
 
+                    b.Property<int>("SpecificAvailabilityId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
+                    b.HasIndex("DefaultAvailabilityId")
+                        .IsUnique();
+
                     b.HasIndex("PersonId")
+                        .IsUnique();
+
+                    b.HasIndex("SpecificAvailabilityId")
                         .IsUnique();
 
                     b.ToTable("Doctor", (string)null);
@@ -197,8 +274,10 @@ namespace Hackathon.Infra.Data.Migrations
                         {
                             Id = 1,
                             CRM = "123456",
+                            DefaultAvailabilityId = 0,
                             PersonId = 1,
-                            Specialty = "Clinico Geral"
+                            Specialty = "Clinico Geral",
+                            SpecificAvailabilityId = 0
                         });
                 });
 
@@ -227,7 +306,7 @@ namespace Hackathon.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            HealthInsuranceNumber = "Unimed",
+                            HealthInsuranceNumber = "12313231231",
                             PersonId = 2
                         });
                 });
@@ -297,15 +376,15 @@ namespace Hackathon.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AlterDate = new DateTime(2024, 8, 1, 18, 34, 36, 760, DateTimeKind.Local).AddTicks(4720),
-                            CreateDate = new DateTime(2024, 8, 1, 18, 34, 36, 760, DateTimeKind.Local).AddTicks(4710),
+                            AlterDate = new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6362),
+                            CreateDate = new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6349),
                             Description = "Doctor"
                         },
                         new
                         {
                             Id = 2,
-                            AlterDate = new DateTime(2024, 8, 1, 18, 34, 36, 760, DateTimeKind.Local).AddTicks(4722),
-                            CreateDate = new DateTime(2024, 8, 1, 18, 34, 36, 760, DateTimeKind.Local).AddTicks(4721),
+                            AlterDate = new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6364),
+                            CreateDate = new DateTime(2024, 8, 2, 14, 33, 7, 499, DateTimeKind.Local).AddTicks(6363),
                             Description = "Patient"
                         });
                 });
@@ -361,6 +440,12 @@ namespace Hackathon.Infra.Data.Migrations
                             Id = 5,
                             RoleId = 2,
                             Route = "Auth/RefreshToken"
+                        },
+                        new
+                        {
+                            Id = 6,
+                            RoleId = 2,
+                            Route = "Patient"
                         });
                 });
 
@@ -379,21 +464,38 @@ namespace Hackathon.Infra.Data.Migrations
                         .HasColumnType("int");
 
                     b.Property<TimeSpan?>("EndTime")
-                        .IsRequired()
                         .HasColumnType("time");
 
                     b.Property<bool>("IsAvailable")
                         .HasColumnType("bit");
 
                     b.Property<TimeSpan?>("StartTime")
-                        .IsRequired()
                         .HasColumnType("time");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("DoctorId");
+                    b.HasIndex("DoctorId")
+                        .IsUnique();
 
                     b.ToTable("SpecificAvailability", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Date = new DateTime(2024, 8, 15, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = 1,
+                            IsAvailable = false
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Date = new DateTime(2024, 8, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DoctorId = 1,
+                            EndTime = new TimeSpan(0, 16, 0, 0, 0),
+                            IsAvailable = true,
+                            StartTime = new TimeSpan(0, 10, 0, 0, 0)
+                        });
                 });
 
             modelBuilder.Entity("Hackathon.Domain.Entities.User", b =>
@@ -433,14 +535,14 @@ namespace Hackathon.Infra.Data.Migrations
                         {
                             Id = 1,
                             Email = "ricardomacieldasilva@hotmail.com",
-                            PasswordHash = "$2a$11$KOwm29NkNPAS0HvnzEjzHedAXw0lHZco6WcGeIBXMXVURMCV8CZlm",
+                            PasswordHash = "$2a$11$68BoFZuJrkelJRAJl2.6muueGTr17Cg6zP9djJSDHm0lTgh595ms.",
                             PersonId = 1
                         },
                         new
                         {
                             Id = 2,
                             Email = "patienty@hotmail.com",
-                            PasswordHash = "$2a$11$rfCt43FZO0aE5g74YwEKJ.krw1zZSfHlZAeCC13SlnIHD43gh9gxu",
+                            PasswordHash = "$2a$11$ASdX59DOIQnNE1C.MfQ61u7NSD7DfM7rY7mKkKeziLv7bSHQoijPy",
                             PersonId = 2
                         });
                 });
@@ -514,13 +616,29 @@ namespace Hackathon.Infra.Data.Migrations
 
             modelBuilder.Entity("Hackathon.Domain.Entities.Doctor", b =>
                 {
+                    b.HasOne("Hackathon.Domain.Entities.DefaultAvailability", "DefaultAvailability")
+                        .WithOne()
+                        .HasForeignKey("Hackathon.Domain.Entities.Doctor", "DefaultAvailabilityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.HasOne("Hackathon.Domain.Entities.Person", "Person")
                         .WithOne()
                         .HasForeignKey("Hackathon.Domain.Entities.Doctor", "PersonId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("Hackathon.Domain.Entities.SpecificAvailability", "SpecificAvailability")
+                        .WithOne()
+                        .HasForeignKey("Hackathon.Domain.Entities.Doctor", "SpecificAvailabilityId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DefaultAvailability");
+
                     b.Navigation("Person");
+
+                    b.Navigation("SpecificAvailability");
                 });
 
             modelBuilder.Entity("Hackathon.Domain.Entities.Patient", b =>
@@ -548,8 +666,8 @@ namespace Hackathon.Infra.Data.Migrations
             modelBuilder.Entity("Hackathon.Domain.Entities.SpecificAvailability", b =>
                 {
                     b.HasOne("Hackathon.Domain.Entities.Doctor", "Doctor")
-                        .WithMany()
-                        .HasForeignKey("DoctorId")
+                        .WithOne()
+                        .HasForeignKey("Hackathon.Domain.Entities.SpecificAvailability", "DoctorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

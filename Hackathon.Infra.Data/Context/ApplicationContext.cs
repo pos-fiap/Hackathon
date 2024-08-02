@@ -47,7 +47,7 @@ namespace Hackathon.Infra.Data.Context
         private void Seed(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Role>().HasData(
-                new Role { Id = 1, Description = "Doctor", CreateDate = DateTime.Now, AlterDate = DateTime.Now },
+           new Role { Id = 1, Description = "Doctor", CreateDate = DateTime.Now, AlterDate = DateTime.Now },
                 new Role { Id = 2, Description = "Patient", CreateDate = DateTime.Now, AlterDate = DateTime.Now }
             );
 
@@ -61,27 +61,27 @@ namespace Hackathon.Infra.Data.Context
             );
 
             modelBuilder.Entity<Person>().HasData(
-                new Person { Id = 1, Name = "Doctor X", CPF = "12345678", Status = Status.Active },
+           new Person { Id = 1, Name = "Doctor X", CPF = "12345678", Status = Status.Active },
                 new Person { Id = 2, Name = "Patient Y", CPF = "134567890", Status = Status.Active }
-                );
+            );
 
             modelBuilder.Entity<User>().HasData(
-                new User { Id = 1, Email = "ricardomacieldasilva@hotmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("1"), PersonId = 1 },
+           new User { Id = 1, Email = "ricardomacieldasilva@hotmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("1"), PersonId = 1 },
                 new User { Id = 2, Email = "patienty@hotmail.com", PasswordHash = BCrypt.Net.BCrypt.HashPassword("1"), PersonId = 2 }
             );
 
             modelBuilder.Entity<UserRole>().HasData(
-                new UserRole { Id = 1, RoleId = 1, UserId = 1 },
+           new UserRole { Id = 1, RoleId = 1, UserId = 1 },
                 new UserRole { Id = 2, RoleId = 2, UserId = 2 }
-                );
+            );
 
             modelBuilder.Entity<Doctor>().HasData(
-                               new Doctor { Id = 1, PersonId = 1, CRM = "123456", Specialty = "Clinico Geral" }
-                               );
+           new Doctor { Id = 1, PersonId = 1, CRM = "123456", Specialty = "Clinico Geral" }
+            );
 
             modelBuilder.Entity<Patient>().HasData(
-                               new Patient { Id = 1, PersonId = 2, HealthInsuranceNumber = "12313231231" }
-                               );
+           new Patient { Id = 1, PersonId = 2, HealthInsuranceNumber = "12313231231" }
+            );
 
             modelBuilder.Entity<DefaultAvailability>().HasData(new DefaultAvailability
             {
@@ -113,7 +113,8 @@ namespace Hackathon.Infra.Data.Context
                 LunchEndFriday = new TimeSpan(13, 0, 0)
             });
 
-            modelBuilder.Entity<SpecificAvailability>().HasData(new SpecificAvailability
+            modelBuilder.Entity<SpecificAvailability>().HasData(
+            new SpecificAvailability
             {
                 Id = 1,
                 DoctorId = 1,
@@ -130,6 +131,44 @@ namespace Hackathon.Infra.Data.Context
                 StartTime = new TimeSpan(10, 0, 0),
                 EndTime = new TimeSpan(16, 0, 0),
                 IsAvailable = true
+            });
+
+            modelBuilder.Entity<Appointment>().HasData(
+            new Appointment
+            {
+                Id = 1,
+                DoctorId = 1,
+                PatientId = 1,
+                AppointmentDate = new DateTime(2024, 8, 12), // Segunda-feira
+                StartTime = new TimeSpan(9, 0, 0),
+                EndTime = new TimeSpan(10, 0, 0)
+            },
+            new Appointment
+            {
+                Id = 2,
+                DoctorId = 1,
+                PatientId = 1,
+                AppointmentDate = new DateTime(2024, 8, 13), // Terça-feira
+                StartTime = new TimeSpan(14, 0, 0),
+                EndTime = new TimeSpan(15, 0, 0)
+            },
+            new Appointment
+            {
+                Id = 3,
+                DoctorId = 1,
+                PatientId = 1,
+                AppointmentDate = new DateTime(2024, 8, 14), // Quarta-feira
+                StartTime = new TimeSpan(11, 0, 0),
+                EndTime = new TimeSpan(12, 0, 0)
+            },
+            new Appointment
+            {
+                Id = 4,
+                DoctorId = 1,
+                PatientId = 1,
+                AppointmentDate = new DateTime(2024, 8, 18), // Domingo (disponível de 10:00 às 16:00)
+                StartTime = new TimeSpan(10, 0, 0),
+                EndTime = new TimeSpan(11, 0, 0)
             });
         }
 
