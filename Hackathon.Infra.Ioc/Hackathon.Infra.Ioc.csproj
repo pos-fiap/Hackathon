@@ -13,6 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\Hackathon.Infra.Messaging.csproj" />
     <ProjectReference Include="..\Hackathon.Application\Hackathon.Application.csproj" />
     <ProjectReference Include="..\Hackathon.Domain\Hackathon.Domain.csproj" />
     <ProjectReference Include="..\Hackathon.Infra.Data\Hackathon.Infra.Data.csproj" />

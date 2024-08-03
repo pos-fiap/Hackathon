@@ -21,11 +21,15 @@ namespace Hackathon.Application.Validator
 
             RuleFor(x => x.StartTime)
                 .NotEmpty()
-                .WithMessage("StartTime is required.");
+                .WithMessage("StartTime is required.")
+                .Must(x => x.Minutes == 0 && x.Seconds == 0)
+                .WithMessage("StartTime must be a whole hour.");
 
             RuleFor(x => x.EndTime)
                 .NotEmpty()
-                .WithMessage("EndTime is required.");
+                .WithMessage("EndTime is required.")
+                .Must(x => x.Minutes == 0 && x.Seconds == 0)
+                .WithMessage("StartTime must be a whole hour.");
 
             RuleFor(x => x)
                 .Must(x => x.EndTime > x.StartTime)

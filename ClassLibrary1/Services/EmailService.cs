@@ -1,11 +1,12 @@
-﻿using Hackathon.Infra.Messaging.Models;
+﻿using Hackathon.Infra.Messaging.Interfaces;
+using Hackathon.Infra.Messaging.Models;
 using MailKit.Net.Smtp;
 using Microsoft.Extensions.Configuration;
 using MimeKit;
 
 namespace Hackathon.Infra.Messaging.Services
 {
-    public class EmailService(IConfiguration configuration)
+    public class EmailService(IConfiguration configuration) : IEmailService
     {
         public async Task SendEmail(EmailMessage email)
         {

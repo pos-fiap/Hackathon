@@ -9,5 +9,6 @@ namespace Hackathon.Domain.Entities
         public required string CPF { get; set; }
         public Status Status { get; set; }
 
+        public virtual User User { get; set; }
     }
 }

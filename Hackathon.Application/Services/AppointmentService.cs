@@ -6,12 +6,14 @@ using Hackathon.Application.Interfaces;
 using Hackathon.Application.Utils;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Interfaces;
+using Hackathon.Infra.Messaging.Interfaces;
+using Hackathon.Infra.Messaging.Models;
 
 namespace Hackathon.Application.Services
 {
     public class AppointmentService : IAppointmentService
     {
-        private const int MaxDays = 4;
+        private const int MaxDays = 90;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IDefaultAvailabilityRepository _defaultAvailabilityRepository;
@@ -19,6 +21,9 @@ namespace Hackathon.Application.Services
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly IValidator<AppointmentDto> _appointmentDtoValidator;
+        private readonly IMessaging _messagingService;
+        private readonly IDoctorRepository _doctorRepository;
+        private readonly IPatientRepository _patientRepository;
 
         public AppointmentService(IAppointmentRepository appointmentRepository,
                            IPersonRepository personRepository,
@@ -26,7 +31,10 @@ namespace Hackathon.Application.Services
                            IMapper mapper,
                            IValidator<AppointmentDto> appointmentDtoValidator,
                            IDefaultAvailabilityRepository defaultAvailabilityRepository,
-                           ISpecificAvailabilityRepository specificAvailabilityRepository)
+                           ISpecificAvailabilityRepository specificAvailabilityRepository,
+                           IMessaging messagingService,
+                           IDoctorRepository doctorRepository,
+                           IPatientRepository patientRepository)
         {
             _appointmentRepository = appointmentRepository;
             _personRepository = personRepository;
@@ -35,6 +43,9 @@ namespace Hackathon.Application.Services
             _appointmentDtoValidator = appointmentDtoValidator;
             _defaultAvailabilityRepository = defaultAvailabilityRepository;
             _specificAvailabilityRepository = specificAvailabilityRepository;
+            _messagingService = messagingService;
+            _doctorRepository = doctorRepository;
+            _patientRepository = patientRepository;
         }
 
         public async Task<BaseOutput<List<AvailabilityDto>>> GetDoctorAvailability(int doctorId)
@@ -52,14 +63,14 @@ namespace Hackathon.Application.Services
             var appointments = await _appointmentRepository.GetAsync(x => x.DoctorId == doctorId, true);
 
             List<AvailabilityDto> availabilities = new();
-            DateTime today = DateTime.Today.AddDays(10);
-           
+            DateTime today = DateTime.Today;
+
             void AddDefaultAvailabilityWithLunch(DateTime date, TimeSpan? start, TimeSpan? end, TimeSpan? lunchStart, TimeSpan? lunchEnd)
             {
                 if (start.HasValue && end.HasValue)
                 {
                     if (lunchStart.HasValue && lunchEnd.HasValue)
-                    {                       
+                    {
                         if (start < lunchStart)
                         {
                             availabilities.Add(new AvailabilityDto
@@ -70,7 +81,7 @@ namespace Hackathon.Application.Services
                                 EndTime = lunchStart
                             });
                         }
-                       
+
                         if (lunchEnd < end)
                         {
                             availabilities.Add(new AvailabilityDto
@@ -83,7 +94,7 @@ namespace Hackathon.Application.Services
                         }
                     }
                     else
-                    {                       
+                    {
                         availabilities.Add(new AvailabilityDto
                         {
                             RawDate = date,
@@ -94,7 +105,7 @@ namespace Hackathon.Application.Services
                     }
                 }
             }
-           
+
             for (int i = 0; i < MaxDays; i++)
             {
                 DateTime currentDate = today.AddDays(i);
@@ -127,7 +138,7 @@ namespace Hackathon.Application.Services
                         throw new Exception("Invalid day of the week.");
                 }
             }
-           
+
             foreach (var specificAvailability in specificAvailabilities)
             {
                 var specificAvailabilityDto = new AvailabilityDto
@@ -149,7 +160,7 @@ namespace Hackathon.Application.Services
                     availabilities.Add(specificAvailabilityDto);
                 }
             }
-           
+
             foreach (var appointment in appointments)
             {
                 var dayOfWeek = appointment.AppointmentDate.DayOfWeek;
@@ -162,7 +173,7 @@ namespace Hackathon.Application.Services
                 {
                     var appointmentStart = appointment.StartTime;
                     var appointmentEnd = appointment.EndTime;
-                   
+
                     if (appointmentStart > availability.StartTime && appointmentEnd < availability.EndTime)
                     {
                         if (appointmentStart >= availability.StartTime && appointmentEnd <= availability.EndTime)
@@ -193,7 +204,7 @@ namespace Hackathon.Application.Services
                     }
                 }
             }
-           
+
             availabilities = availabilities.Where(a => a.StartTime < a.EndTime).OrderBy(x => x.RawDate).ThenBy(x => x.StartTime).ToList();
 
             response.Response = availabilities;
@@ -205,6 +216,11 @@ namespace Hackathon.Application.Services
             BaseOutput<int> response = new();
 
             ValidationUtil.ValidateClass(appointmentDto, _appointmentDtoValidator, response);
+
+            if (response.Errors.Any())
+            {
+                return response;
+            }
 
             var defaultAvailability = await _defaultAvailabilityRepository.GetSingleAsync(x => x.DoctorId == appointmentDto.DoctorId, true);
 
@@ -264,17 +280,17 @@ namespace Hackathon.Application.Services
                     throw new Exception("Invalid day of the week.");
             }
 
-            if (!startTime.HasValue
+            var specificAvailability = await _specificAvailabilityRepository.GetSingleAsync(x => x.DoctorId == appointmentDto.DoctorId && x.Date == appointmentDto.AppointmentDate, true);
+
+            if ((!startTime.HasValue
                 || !endTime.HasValue
                 || appointmentDto.StartTime < startTime.Value
                 || appointmentDto.EndTime > endTime.Value
                 || (appointmentDto.StartTime >= lunchStart && appointmentDto.StartTime < lunchEnd)
-                || (appointmentDto.EndTime > lunchStart && appointmentDto.EndTime <= lunchEnd))
+                || (appointmentDto.EndTime > lunchStart && appointmentDto.EndTime <= lunchEnd)) && specificAvailability == null)
             {
                 throw new Exception("Appointment time is outside the doctor's working hours.");
             }
-
-            var specificAvailability = await _specificAvailabilityRepository.GetSingleAsync(x => x.DoctorId == appointmentDto.DoctorId && x.Date == appointmentDto.AppointmentDate, true);
 
             if (specificAvailability != null)
             {
@@ -286,12 +302,35 @@ namespace Hackathon.Application.Services
                 }
             }
 
+            var appointments = await _appointmentRepository.GetAsync(x => x.DoctorId == appointmentDto.DoctorId && x.AppointmentDate == appointmentDto.AppointmentDate, true);
+
+            foreach (var appointment in appointments)
+            {
+                if (appointmentDto.StartTime >= appointment.StartTime && appointmentDto.StartTime < appointment.EndTime)
+                {
+                    throw new Exception("There is already an appointment scheduled for this time.");
+                }
+
+                if (appointmentDto.EndTime > appointment.StartTime && appointmentDto.EndTime <= appointment.EndTime)
+                {
+                    throw new Exception("There is already an appointment scheduled for this time.");
+                }
+            }
+
             Appointment appointmentMapped = _mapper.Map<Appointment>(appointmentDto);
 
             await _appointmentRepository.AddAsync(appointmentMapped);
             await _unitOfWork.CommitAsync();
 
             response.Response = appointmentMapped.Id;
+
+            var doctor = await _doctorRepository.GetSingleAsync(exp => exp.Id == appointmentDto.DoctorId, false);
+
+            var docEmail = doctor?.Person?.User?.Email;
+
+            var patient = await _patientRepository.GetSingleAsync(exp => exp.Id == appointmentDto.PatientId, false);
+
+            await _messagingService.SendMail(new EmailMessage { Subject = "Health&Med - Nova consulta agendada", Message = $"Olá, Dr. {doctor.Person.Name} Você tem uma nova consulta marcada!\r\nPaciente: {patient.Person.Name}.\r\nData e horário: {appointmentMapped.AppointmentDate.Date} {appointmentMapped.StartTime} às {appointmentMapped.EndTime} .", From = docEmail, To = docEmail });
 
             return response;
         }

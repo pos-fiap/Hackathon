@@ -2,6 +2,7 @@ using Hackathon.Infra.Data.Context;
 using Hackathon.Infra.Ioc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using Swashbuckle.AspNetCore.Filters;
 using System.Text;
@@ -50,6 +51,13 @@ builder.Services.AddSwaggerGen(
     });
 
         options.OperationFilter<SecurityRequirementsOperationFilter>();
+
+        //map timespan to string
+        options.MapType<TimeSpan>(() => new OpenApiSchema
+        {
+            Type = "string",
+            Example = new OpenApiString("00:00:00")
+        });
     });
 
 builder.Services.AddAuthentication().AddJwtBearer(options =>

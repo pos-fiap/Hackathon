@@ -1,5 +1,7 @@
 ﻿using Hackathon.Application.Interfaces;
 using Hackathon.Application.Services;
+using Hackathon.Infra.Messaging.Interfaces;
+using Hackathon.Infra.Messaging.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace Hackathon.Infra.Ioc.Services
@@ -16,6 +18,9 @@ namespace Hackathon.Infra.Ioc.Services
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IDoctorService, DoctorService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IMessaging, MessagingService>();
+            services.AddScoped<IEmailService, EmailService>();
+
         }
     }
 }

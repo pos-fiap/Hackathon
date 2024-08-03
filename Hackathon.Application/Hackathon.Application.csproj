@@ -54,6 +54,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ClassLibrary1\Hackathon.Infra.Messaging.csproj" />
     <ProjectReference Include="..\Hackathon.Domain\Hackathon.Domain.csproj" />
   </ItemGroup>
 
