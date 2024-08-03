@@ -1,4 +1,4 @@
-﻿namespace Hackathon.Domain.Entities
+﻿namespace Hackathon.Application.DTOs
 {
     public class AppointmentDto
     {

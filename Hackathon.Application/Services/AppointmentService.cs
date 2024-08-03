@@ -11,6 +11,7 @@ namespace Hackathon.Application.Services
 {
     public class AppointmentService : IAppointmentService
     {
+        private const int MaxDays = 30;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IDefaultAvailabilityRepository _defaultAvailabilityRepository;
@@ -34,6 +35,164 @@ namespace Hackathon.Application.Services
             _appointmentDtoValidator = appointmentDtoValidator;
             _defaultAvailabilityRepository = defaultAvailabilityRepository;
             _specificAvailabilityRepository = specificAvailabilityRepository;
+        }
+
+        public async Task<BaseOutput<List<AvailabilityDto>>> GetDoctorAvailability(int doctorId)
+        {
+            BaseOutput<List<AvailabilityDto>> response = new();
+
+            var defaultAvailability = await _defaultAvailabilityRepository.GetSingleAsync(x => x.DoctorId == doctorId, true);
+            if (defaultAvailability == null)
+            {
+                response.AddError("Default availability not found for the specified doctor.");
+                return response;
+            }
+
+            var specificAvailabilities = await _specificAvailabilityRepository.GetAsync(x => x.DoctorId == doctorId && x.IsAvailable, true);
+            var appointments = await _appointmentRepository.GetAsync(x => x.DoctorId == doctorId, true);
+
+            List<AvailabilityDto> availabilities = new();
+            DateTime today = DateTime.Today;
+           
+            void AddDefaultAvailabilityWithLunch(DateTime date, TimeSpan? start, TimeSpan? end, TimeSpan? lunchStart, TimeSpan? lunchEnd)
+            {
+                if (start.HasValue && end.HasValue)
+                {
+                    if (lunchStart.HasValue && lunchEnd.HasValue)
+                    {                       
+                        if (start < lunchStart)
+                        {
+                            availabilities.Add(new AvailabilityDto
+                            {
+                                RawDate = date,
+                                Date = date.ToString("D"),
+                                StartTime = start,
+                                EndTime = lunchStart
+                            });
+                        }
+                       
+                        if (lunchEnd < end)
+                        {
+                            availabilities.Add(new AvailabilityDto
+                            {
+                                RawDate = date,
+                                Date = date.ToString("D"),
+                                StartTime = lunchEnd,
+                                EndTime = end
+                            });
+                        }
+                    }
+                    else
+                    {                       
+                        availabilities.Add(new AvailabilityDto
+                        {
+                            RawDate = date,
+                            Date = date.ToString("D"),
+                            StartTime = start,
+                            EndTime = end
+                        });
+                    }
+                }
+            }
+           
+            for (int i = 0; i < MaxDays; i++)
+            {
+                DateTime currentDate = today.AddDays(i);
+                var dayOfWeek = currentDate.DayOfWeek;
+
+                switch (dayOfWeek)
+                {
+                    case DayOfWeek.Monday:
+                        AddDefaultAvailabilityWithLunch(currentDate, defaultAvailability.StartMonday, defaultAvailability.EndMonday, defaultAvailability.LunchStartMonday, defaultAvailability.LunchEndMonday);
+                        break;
+                    case DayOfWeek.Tuesday:
+                        AddDefaultAvailabilityWithLunch(currentDate, defaultAvailability.StartTuesday, defaultAvailability.EndTuesday, defaultAvailability.LunchStartTuesday, defaultAvailability.LunchEndTuesday);
+                        break;
+                    case DayOfWeek.Wednesday:
+                        AddDefaultAvailabilityWithLunch(currentDate, defaultAvailability.StartWednesday, defaultAvailability.EndWednesday, defaultAvailability.LunchStartWednesday, defaultAvailability.LunchEndWednesday);
+                        break;
+                    case DayOfWeek.Thursday:
+                        AddDefaultAvailabilityWithLunch(currentDate, defaultAvailability.StartThursday, defaultAvailability.EndThursday, defaultAvailability.LunchStartThursday, defaultAvailability.LunchEndThursday);
+                        break;
+                    case DayOfWeek.Friday:
+                        AddDefaultAvailabilityWithLunch(currentDate, defaultAvailability.StartFriday, defaultAvailability.EndFriday, defaultAvailability.LunchStartFriday, defaultAvailability.LunchEndFriday);
+                        break;
+                    case DayOfWeek.Saturday:
+                        AddDefaultAvailabilityWithLunch(currentDate, defaultAvailability.StartSaturday, defaultAvailability.EndSaturday, defaultAvailability.LunchStartSaturday, defaultAvailability.LunchEndSaturday);
+                        break;
+                    case DayOfWeek.Sunday:
+                        AddDefaultAvailabilityWithLunch(currentDate, defaultAvailability.StartSunday, defaultAvailability.EndSunday, defaultAvailability.LunchStartSunday, defaultAvailability.LunchEndSunday);
+                        break;
+                    default:
+                        throw new Exception("Invalid day of the week.");
+                }
+            }
+           
+            foreach (var specificAvailability in specificAvailabilities)
+            {
+                var specificAvailabilityDto = new AvailabilityDto
+                {
+                    RawDate = specificAvailability.Date,
+                    Date = specificAvailability.Date.ToString("D"),
+                    StartTime = specificAvailability.StartTime,
+                    EndTime = specificAvailability.EndTime
+                };
+
+                var index = availabilities.FindIndex(a => a.Date == specificAvailabilityDto.Date);
+
+                if (index != -1)
+                {
+                    availabilities[index] = specificAvailabilityDto;
+                }
+                else
+                {
+                    availabilities.Add(specificAvailabilityDto);
+                }
+            }
+           
+            foreach (var appointment in appointments)
+            {
+                var dayOfWeek = appointment.AppointmentDate.DayOfWeek;
+                var rawDate = appointment.AppointmentDate.Date;
+                var appointmentDate = appointment.AppointmentDate.ToString("D");
+
+                var availability = availabilities.FirstOrDefault(a => a.Date == appointmentDate);
+
+                if (availability != null)
+                {
+                    var appointmentStart = appointment.StartTime;
+                    var appointmentEnd = appointment.EndTime;
+                   
+                    if (appointmentStart > availability.StartTime && appointmentEnd < availability.EndTime)
+                    {
+                        availabilities.Add(new AvailabilityDto
+                        {
+                            RawDate = rawDate,
+                            Date = appointmentDate,
+                            StartTime = appointmentEnd,
+                            EndTime = availability.EndTime
+                        });
+                        availability.EndTime = appointmentStart;
+                    }
+                    else if (appointmentStart <= availability.StartTime && appointmentEnd >= availability.EndTime)
+                    {
+                        availabilities.Remove(availability);
+                    }
+                    else if (appointmentStart <= availability.StartTime)
+                    {
+                        availability.StartTime = appointmentEnd;
+                    }
+                    else if (appointmentEnd >= availability.EndTime)
+                    {
+                        availability.EndTime = appointmentStart;
+                    }
+                }
+            }
+           
+            availabilities = availabilities.Where(a => a.StartTime < a.EndTime).OrderBy(x => x.RawDate).ThenBy(x => x.StartTime).ToList();
+
+            response.Response = availabilities;
+            return response;
         }
 
         public async Task<BaseOutput<int>> Create(AppointmentDto appointmentDto)

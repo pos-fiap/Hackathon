@@ -1,6 +1,5 @@
 ﻿using FluentValidation;
 using Hackathon.Application.DTOs;
-using Hackathon.Domain.Entities;
 
 namespace Hackathon.Application.Validator
 {
@@ -31,6 +30,10 @@ namespace Hackathon.Application.Validator
             RuleFor(x => x)
                 .Must(x => x.EndTime > x.StartTime)
                 .WithMessage("EndTime must be greater than StartTime.");
+
+            RuleFor(x => x)
+                .Must(x => x.EndTime - x.StartTime == TimeSpan.FromHours(1))
+                .WithMessage("StartTime and EndTime must have a 1 hour of difference.");
 
         }
     }

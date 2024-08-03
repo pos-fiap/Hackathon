@@ -1,5 +1,4 @@
-﻿using Hackathon.Api.Authorize;
-using Hackathon.Application.BaseResponse;
+﻿using Hackathon.Application.BaseResponse;
 using Hackathon.Application.DTOs;
 using Hackathon.Application.Interfaces;
 using Hackathon.Domain.Entities;

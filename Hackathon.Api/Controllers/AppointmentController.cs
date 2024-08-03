@@ -1,4 +1,5 @@
 ﻿using Hackathon.Application.BaseResponse;
+using Hackathon.Application.DTOs;
 using Hackathon.Application.Interfaces;
 using Hackathon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
@@ -14,6 +15,22 @@ namespace Hackathon.Api.Controllers
         public AppointmentController(IAppointmentService appointmentService)
         {
             _appointmentService = appointmentService;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(BaseOutput<Doctor>), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> GetDoctorAvailability(int id)
+        {
+            try
+            {
+                return ModelState.IsValid ? Ok(await _appointmentService.GetDoctorAvailability(id)) : CustomResponse(ModelState);
+            }
+            catch (Exception ex)
+            {
+                return InternalErrorResponse(ex);
+            }
         }
 
         [HttpPost]
