@@ -25,7 +25,7 @@ namespace Hackathon.Api.Controllers
         {
             try
             {
-                return ModelState.IsValid ? Ok(await _doctorService.Get()) : CustomResponse(ModelState);
+                return ModelState.IsValid ? Ok(await _doctorService.GetAll()) : CustomResponse(ModelState);
             }
             catch (Exception ex)
             {
@@ -71,7 +71,7 @@ namespace Hackathon.Api.Controllers
         [ProducesResponseType(typeof(BaseOutput<bool>), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> Put(DoctorDto doctor)
+        public async Task<IActionResult> Put(PutDoctorDto doctor)
         {
             try
             {
@@ -82,6 +82,56 @@ namespace Hackathon.Api.Controllers
                 return InternalErrorResponse(ex);
             }
         }
+
+        //[HttpPost("SpecificAvailabilities")]
+        //[ProducesResponseType(typeof(BaseOutput<int>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        //[ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
+        //public async Task<IActionResult> PostSpecificAvailabilities(PostDoctorDto doctor)
+        //{
+        //    try
+        //    {
+        //        return ModelState.IsValid ? Ok(await _doctorService.CreateSpecificAvailabilities(doctor)) : CustomResponse(ModelState);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return InternalErrorResponse(ex);
+        //    }
+        //}
+
+        //[HttpDelete("SpecificAvailabilities")]
+        //[ProducesResponseType(typeof(BaseOutput<bool>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        //[ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
+        //public async Task<IActionResult> DeleteSpecificAvailabilities(int id)
+        //{
+        //    try
+        //    {
+        //        return ModelState.IsValid ? Ok(await _doctorService.Delete(id)) : CustomResponse(ModelState);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return InternalErrorResponse(ex);
+
+        //    }
+        //}
+
+
+        //[HttpPut("Availabilities")]
+        //[ProducesResponseType(typeof(BaseOutput<bool>), (int)HttpStatusCode.OK)]
+        //[ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.InternalServerError)]
+        //[ProducesResponseType(typeof(BaseOutput<string>), (int)HttpStatusCode.BadRequest)]
+        //public async Task<IActionResult> PutAllAvailabilities(PutDoctorDto doctor)
+        //{
+        //    try
+        //    {
+        //        return ModelState.IsValid ? Ok(await _doctorService.UpdateAvailabilities(doctor)) : CustomResponse(ModelState);
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return InternalErrorResponse(ex);
+        //    }
+        //}
 
         [HttpDelete]
         [ProducesResponseType(typeof(BaseOutput<bool>), (int)HttpStatusCode.OK)]

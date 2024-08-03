@@ -15,19 +15,21 @@ namespace Hackathon.Application.Services
         private readonly IPersonRepository _personRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
-        private readonly IValidator<DoctorDto> _doctorDtoValidator;
+        private readonly IValidator<PutDoctorDto> _doctorDtoValidator;
         private readonly IValidator<PostDoctorDto> _postDoctorDtoValidator;
         private readonly IUserRepository _userRepository;
         private readonly IUserRoleRepository _userRoleRepository;
+        private readonly IDefaultAvailabilityRepository _defaultAvailabilityRepository;
 
         public DoctorService(IDoctorRepository doctorRepository,
                            IPersonRepository personRepository,
                            IUnitOfWork unitOfWork,
                            IMapper mapper,
-                           IValidator<DoctorDto> doctorDtoValidator,
+                           IValidator<PutDoctorDto> doctorDtoValidator,
                            IValidator<PostDoctorDto> postDoctorDtoValidator,
                            IUserRepository userRepository,
-                           IUserRoleRepository userRoleRepository)
+                           IUserRoleRepository userRoleRepository,
+                           IDefaultAvailabilityRepository defaultAvailabilityRepository)
         {
             _doctorRepository = doctorRepository;
             _personRepository = personRepository;
@@ -37,9 +39,10 @@ namespace Hackathon.Application.Services
             _postDoctorDtoValidator = postDoctorDtoValidator;
             _userRepository = userRepository;
             _userRoleRepository = userRoleRepository;
+            _defaultAvailabilityRepository = defaultAvailabilityRepository;
         }
 
-        public async Task<BaseOutput<List<Doctor>>> Get()
+        public async Task<BaseOutput<List<Doctor>>> GetAll()
         {
             BaseOutput<List<Doctor>> response = new();
 
@@ -49,6 +52,18 @@ namespace Hackathon.Application.Services
 
             return response;
         }
+
+        public async Task<BaseOutput<List<DoctorDto>>> GetAllLimited()
+        {
+            BaseOutput<List<DoctorDto>> response = new();
+
+            IEnumerable<Doctor> doctor = await _doctorRepository.GetAsync();
+
+            response.Response = _mapper.Map<List<DoctorDto>>(doctor.ToList());
+
+            return response;
+        }
+
         public async Task<BaseOutput<Doctor>> Get(int Id)
         {
             Doctor doctor = await _doctorRepository.GetAsync(Id);
@@ -120,29 +135,62 @@ namespace Hackathon.Application.Services
             await _doctorRepository.AddAsync(doctorMapped);
             await _unitOfWork.CommitAsync();
 
+            var defaultMapped = _mapper.Map<DefaultAvailability>(doctorDto.DefaultAvailability);
+
+            defaultMapped.DoctorId = doctorMapped.Id;
+
+            await _defaultAvailabilityRepository.AddAsync(defaultMapped);
+            await _unitOfWork.CommitAsync();
+
             response.Response = doctorMapped.Id;
 
             return response;
         }
 
-        public async Task<BaseOutput<bool>> Update(DoctorDto doctorDto)
+        public async Task<BaseOutput<bool>> Update(PutDoctorDto doctorDto)
         {
             BaseOutput<bool> response = new();
 
             ValidationUtil.ValidateClass(doctorDto, _doctorDtoValidator, response);
 
-            IList<Person> person = _personRepository.GetPersonByDocument(doctorDto.PersonalInformations.CPF);
+            doctorDto.User.Password = BCrypt.Net.BCrypt.HashPassword(doctorDto.User.Password);
+
+            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == doctorDto.User.Email, true);
+
+            if (users.Any())
+            {
+                response.AddError("There is an user with the email provided.");
+            }
+
+            IList<Person> person = _personRepository.GetPersonByDocument(doctorDto.User.PersonalInformations.CPF);
 
             if (person.Any())
             {
                 response.AddError($"There is an active person with the document provided (Name: {person.First().Name}), please reuse it to register.");
             }
 
+            IEnumerable<Doctor> doctors = await _doctorRepository.GetAsync(x => x.Person.CPF == doctorDto.User.PersonalInformations.CPF || x.CRM == doctorDto.CRM, true);
+
+            if (doctors.Any())
+            {
+                response.AddError($"There is an doctor with the CPF provided.");
+            }
+
             Doctor doctorMapped = _mapper.Map<Doctor>(doctorDto);
 
             if (!await VerifyUser(doctorMapped.Id))
             {
-                response.AddError("Not Found");
+                response.AddError("Doctor Not Found");
+            }
+
+            if (!await _userRepository.ExistsAsync(x => x.Id == doctorDto.User.Id))
+            {
+                response.AddError("User Not Found");
+            }
+
+            if (!await _userRepository.ExistsAsync(x => x.Id == doctorDto.User.PersonalInformations.Id))
+            {
+                response.AddError("Person Not Found");
             }
 
             if (response.Errors.Any())
@@ -150,7 +198,23 @@ namespace Hackathon.Application.Services
                 return response;
             }
 
+            var personMapped = _mapper.Map<Person>(doctorDto.User.PersonalInformations);
+            _personRepository.Update(personMapped);
+            await _unitOfWork.CommitAsync();
+
+            var userMapped = _mapper.Map<User>(doctorDto.User);
+            userMapped.PersonId = personMapped.Id;
+            _userRepository.Update(userMapped);
+            await _unitOfWork.CommitAsync();
+
             _doctorRepository.Update(doctorMapped);
+            await _unitOfWork.CommitAsync();
+
+            var defaultMapped = _mapper.Map<DefaultAvailability>(doctorDto.DefaultAvailability);
+
+            defaultMapped.DoctorId = doctorMapped.Id;
+
+            _defaultAvailabilityRepository.Update(defaultMapped);
             await _unitOfWork.CommitAsync();
 
             response.Response = true;

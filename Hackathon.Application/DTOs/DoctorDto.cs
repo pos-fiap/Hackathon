@@ -4,7 +4,7 @@
     {
         public PersonDTO PersonalInformations { get; set; }
         public int Id { get; set; }
-        public required string CRM { get; set; }
-        public required string Specialty { get; set; }
+        public string CRM { get; set; }
+        public string Specialty { get; set; }
     }
 }
