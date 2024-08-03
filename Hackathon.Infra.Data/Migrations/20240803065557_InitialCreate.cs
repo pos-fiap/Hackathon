@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Hackathon.Infra.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate03 : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -131,7 +131,8 @@ namespace Hackathon.Infra.Data.Migrations
                 name: "DefaultAvailability",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false),
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorId = table.Column<int>(type: "int", nullable: false),
                     StartSunday = table.Column<TimeSpan>(type: "time", nullable: true),
                     EndSunday = table.Column<TimeSpan>(type: "time", nullable: true),
@@ -168,12 +169,6 @@ namespace Hackathon.Infra.Data.Migrations
                     table.ForeignKey(
                         name: "FK_DefaultAvailability_Doctor_DoctorId",
                         column: x => x.DoctorId,
-                        principalTable: "Doctor",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_DefaultAvailability_Doctor_Id",
-                        column: x => x.Id,
                         principalTable: "Doctor",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
@@ -271,8 +266,8 @@ namespace Hackathon.Infra.Data.Migrations
                 columns: new[] { "Id", "AlterDate", "CreateDate", "Description" },
                 values: new object[,]
                 {
-                    { 1, new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3644), new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3635), "Doctor" },
-                    { 2, new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3646), new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3646), "Patient" }
+                    { 1, new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4520), new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4512), "Doctor" },
+                    { 2, new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4522), new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4522), "Patient" }
                 });
 
             migrationBuilder.InsertData(
@@ -305,8 +300,8 @@ namespace Hackathon.Infra.Data.Migrations
                 columns: new[] { "Id", "Email", "PasswordHash", "PersonId", "RefreshToken", "RefreshTokenExpiryDate" },
                 values: new object[,]
                 {
-                    { 1, "ricardomacieldasilva@hotmail.com", "$2a$11$uqWEVkaQ2ohWqf2FEXSc0eoSlwmSqeHXNZmWDOs4LV.dOiE4YtmtG", 1, null, null },
-                    { 2, "patienty@hotmail.com", "$2a$11$l83YQXDF2Y6DFyp.J/oR/OQqE9dRlZ3gsB0K6EDsBV7FT0WcL191W", 2, null, null }
+                    { 1, "ricardomacieldasilva@hotmail.com", "$2a$11$ggDJ5vR2trm0I.zE5xpB2evU6lkCt60aF/aNLlRrmIcQXj96Akgxa", 1, null, null },
+                    { 2, "patienty@hotmail.com", "$2a$11$47qI/Jjg6V9ZyneZkAFai.8iJZkJqzEQJ7qEiJJ62IfUoDmFJv24u", 2, null, null }
                 });
 
             migrationBuilder.InsertData(
@@ -353,7 +348,7 @@ namespace Hackathon.Infra.Data.Migrations
                 columns: new[] { "PatientId", "AppointmentDate" });
 
             migrationBuilder.CreateIndex(
-                name: "IX_DefaultAvailabilities_DoctorId",
+                name: "IX_DefaultAvailability_DoctorId",
                 table: "DefaultAvailability",
                 column: "DoctorId",
                 unique: true);

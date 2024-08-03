@@ -156,21 +156,21 @@ namespace Hackathon.Application.Services
 
             doctorDto.User.Password = BCrypt.Net.BCrypt.HashPassword(doctorDto.User.Password);
 
-            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == doctorDto.User.Email, true);
+            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == doctorDto.User.Email && doctorDto.User.Id != x.Id, true);
 
             if (users.Any())
             {
                 response.AddError("There is an user with the email provided.");
             }
 
-            IList<Person> person = _personRepository.GetPersonByDocument(doctorDto.User.PersonalInformations.CPF);
+            IEnumerable<Person> person = await _personRepository.GetAsync(x => x.CPF == doctorDto.User.PersonalInformations.CPF && x.Id != doctorDto.User.PersonalInformations.Id ,true);
 
             if (person.Any())
             {
                 response.AddError($"There is an active person with the document provided (Name: {person.First().Name}), please reuse it to register.");
             }
 
-            IEnumerable<Doctor> doctors = await _doctorRepository.GetAsync(x => x.Person.CPF == doctorDto.User.PersonalInformations.CPF || x.CRM == doctorDto.CRM, true);
+            IEnumerable<Doctor> doctors = await _doctorRepository.GetAsync(x => x.CRM == doctorDto.CRM && x.Id != doctorDto.Id , true);
 
             if (doctors.Any())
             {

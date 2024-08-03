@@ -91,7 +91,10 @@ namespace Hackathon.Infra.Data.Migrations
             modelBuilder.Entity("Hackathon.Domain.Entities.DefaultAvailability", b =>
                 {
                     b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<int>("DoctorId")
                         .HasColumnType("int");
@@ -183,8 +186,7 @@ namespace Hackathon.Infra.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DoctorId")
-                        .IsUnique()
-                        .HasDatabaseName("IX_DefaultAvailabilities_DoctorId");
+                        .IsUnique();
 
                     b.ToTable("DefaultAvailability", (string)null);
 
@@ -347,15 +349,15 @@ namespace Hackathon.Infra.Data.Migrations
                         new
                         {
                             Id = 1,
-                            AlterDate = new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3644),
-                            CreateDate = new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3635),
+                            AlterDate = new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4520),
+                            CreateDate = new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4512),
                             Description = "Doctor"
                         },
                         new
                         {
                             Id = 2,
-                            AlterDate = new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3646),
-                            CreateDate = new DateTime(2024, 8, 3, 1, 4, 41, 723, DateTimeKind.Local).AddTicks(3646),
+                            AlterDate = new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4522),
+                            CreateDate = new DateTime(2024, 8, 3, 3, 55, 57, 0, DateTimeKind.Local).AddTicks(4522),
                             Description = "Patient"
                         });
                 });
@@ -517,14 +519,14 @@ namespace Hackathon.Infra.Data.Migrations
                         {
                             Id = 1,
                             Email = "ricardomacieldasilva@hotmail.com",
-                            PasswordHash = "$2a$11$uqWEVkaQ2ohWqf2FEXSc0eoSlwmSqeHXNZmWDOs4LV.dOiE4YtmtG",
+                            PasswordHash = "$2a$11$ggDJ5vR2trm0I.zE5xpB2evU6lkCt60aF/aNLlRrmIcQXj96Akgxa",
                             PersonId = 1
                         },
                         new
                         {
                             Id = 2,
                             Email = "patienty@hotmail.com",
-                            PasswordHash = "$2a$11$l83YQXDF2Y6DFyp.J/oR/OQqE9dRlZ3gsB0K6EDsBV7FT0WcL191W",
+                            PasswordHash = "$2a$11$47qI/Jjg6V9ZyneZkAFai.8iJZkJqzEQJ7qEiJJ62IfUoDmFJv24u",
                             PersonId = 2
                         });
                 });
@@ -588,14 +590,8 @@ namespace Hackathon.Infra.Data.Migrations
             modelBuilder.Entity("Hackathon.Domain.Entities.DefaultAvailability", b =>
                 {
                     b.HasOne("Hackathon.Domain.Entities.Doctor", "Doctor")
-                        .WithOne()
-                        .HasForeignKey("Hackathon.Domain.Entities.DefaultAvailability", "DoctorId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Hackathon.Domain.Entities.Doctor", null)
                         .WithOne("DefaultAvailability")
-                        .HasForeignKey("Hackathon.Domain.Entities.DefaultAvailability", "Id")
+                        .HasForeignKey("Hackathon.Domain.Entities.DefaultAvailability", "DoctorId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 

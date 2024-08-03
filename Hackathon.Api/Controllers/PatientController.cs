@@ -7,7 +7,7 @@ using System.Net;
 
 namespace Hackathon.Api.Controllers
 {
-    //[CustomAuthorization]
+    [CustomAuthorization]
     public class PatientController : BaseController
     {
         private readonly IPatientService _patientService;
