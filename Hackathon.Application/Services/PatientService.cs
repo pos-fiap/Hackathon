@@ -39,6 +39,10 @@ namespace Hackathon.Application.Services
             _userRoleRepository = userRoleRepository;
         }
 
+        public PatientService()
+        {
+        }
+
         public async Task<BaseOutput<List<Patient>>> Get()
         {
             BaseOutput<List<Patient>> response = new();
