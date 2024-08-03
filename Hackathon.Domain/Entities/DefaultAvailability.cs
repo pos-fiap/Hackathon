@@ -2,7 +2,7 @@
 
 namespace Hackathon.Domain.Entities
 {
-    public class DefaultAvailability
+    public class DefaultAvailability : BaseModel
     {
         public int Id { get; set; }
         public int DoctorId { get; set; }

@@ -16,6 +16,9 @@ namespace Hackathon.Infra.Ioc.Services
             services.AddScoped<IRoleAccessRepository, RoleAccessRepository>();
             services.AddScoped<IPatientRepository, PatientRepository>();
             services.AddScoped<IDoctorRepository, DoctorRepository>();
+            services.AddScoped<IAppointmentRepository, AppointmentRepository>();
+            services.AddScoped<IDefaultAvailabilityRepository, DefaultAvailabilityRepository>();
+            services.AddScoped<ISpecificAvailabilityRepository, SpecificAvailabilityRepository>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
     }

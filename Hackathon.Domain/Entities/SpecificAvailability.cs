@@ -1,6 +1,6 @@
 ﻿namespace Hackathon.Domain.Entities
 {
-    public class SpecificAvailability
+    public class SpecificAvailability : BaseModel
     {
         public int Id { get; set; }
         public int DoctorId { get; set; }

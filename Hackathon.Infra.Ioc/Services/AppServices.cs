@@ -15,6 +15,7 @@ namespace Hackathon.Infra.Ioc.Services
             services.AddScoped<IAuthService, AuthService>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IDoctorService, DoctorService>();
+            services.AddScoped<IAppointmentService, AppointmentService>();
         }
     }
 }
