@@ -96,37 +96,37 @@ namespace Hackathon.Tests.Integration
             var patient = Assert.IsType<Patient>(createdResult.Value);
             Assert.Equal(_patientDto.HealthInsuranceNumber, patient.HealthInsuranceNumber);
 
-            DeleteSeedData(_applicationContext);
+            Delete(_applicationContext);
         }
 
         [Fact]
-        public async Task GetAllBooks_Returns_AllBooks()
+        public async Task GetPatients_Returns_AllPatient()
         {
             SeedDatabase(_applicationContext);
             // Act
-            var result = await _bookController.GetAll();
+            var result = await _patientController.Get();
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.IsAssignableFrom<IEnumerable<Book>>(okResult.Value);
+            Assert.IsAssignableFrom<IEnumerable<Patient>>(okResult.Value);
 
-            DeleteSeedData(_applicationContext);
+            Delete(_applicationContext);
         }
 
         [Fact]
-        public async Task GetByGenre_Returns_BooksOfGivenGenre()
+        public async Task GetById_Returns_Patient()
         {
             // Arrange
             SeedDatabase(_applicationContext);
 
             // Act
-            var result = await _bookController.GetByGenre(_book.GenreId);
+            var result = await _patientController.Get(_patient.Id);
 
             // Assert
             var okResult = Assert.IsType<OkObjectResult>(result);
-            Assert.IsAssignableFrom<IEnumerable<Book>>(okResult.Value);
+            Assert.IsAssignableFrom<IEnumerable<Patient>>(okResult.Value);
 
-            DeleteSeedData(_applicationContext);
+            Delete(_applicationContext);
         }
 
         [Fact]
@@ -134,14 +134,15 @@ namespace Hackathon.Tests.Integration
         {
             // Arrange
             SeedDatabase(_applicationContext);
+            var _patientDto = new PatientDto() { HealthInsuranceNumber = _patient.HealthInsuranceNumber };
 
             // Act
-            var result = await _bookController.Update(_book);
+            var result = await _patientController.Put(_patientDto);
 
             // Assert
             Assert.IsType<OkResult>(result);
 
-            DeleteSeedData(_applicationContext);
+            Delete(_applicationContext);
         }
 
         [Fact]
@@ -151,10 +152,10 @@ namespace Hackathon.Tests.Integration
             SeedDatabase(_applicationContext);
 
             // Act
-            var result = await _bookController.Remove(_book.Id);
+            var result = await _patientController.Delete(_patient.Id);
 
             // Assert
             Assert.IsType<OkResult>(result);
-        }*/
+        }
     }
 }

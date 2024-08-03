@@ -33,6 +33,10 @@ namespace Hackathon.Application.Services
             _postPatientDtoValidator = postPatientDtoValidator;
         }
 
+        public PatientService()
+        {
+        }
+
         public async Task<BaseOutput<List<Patient>>> Get()
         {
             BaseOutput<List<Patient>> response = new();

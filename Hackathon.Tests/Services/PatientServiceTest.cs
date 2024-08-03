@@ -1,6 +1,11 @@
-﻿using Hackathon.Domain.Interfaces;
+﻿using Hackathon.Application.DTOs;
+using Hackathon.Application.Services;
+using Hackathon.Domain.Entities;
+using Hackathon.Domain.Interfaces;
 using Hackathon.Infra.Data.Repositories;
 using Moq;
+using System;
+using System.Linq.Expressions;
 using Xunit;
 
 namespace Hackathon.Tests.Services
@@ -9,118 +14,110 @@ namespace Hackathon.Tests.Services
     public class PatientServiceTest
     {
         private readonly Mock<IPatientRepository> _patientRepository;
+        private readonly Mock<IPersonRepository> _personRepository;
       
         public PatientServiceTest()
         {
-            _patientRepository = new Mock<IPatientRepository>();        
+            _patientRepository = new Mock<IPatientRepository>();
+            _personRepository = new Mock<IPersonRepository>();        
         }
 
 
-       /* [Fact]
-        public async Task Add_WhenCalled_ReturnsBook()
+        [Fact]
+        public async Task Add_WhenCalled_ReturnsPatient()
         {
             // Arrange
-            _genreRepository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(new Genre("Genre", "Genre Description"));
-            var bookService = new BookService(_bookRepository.Object, _genreRepository.Object);
-            var bookRequestDto = new BookRequestDto("Book one", "Someone", 1);
+            _personRepository.Setup(x => x.GetAsync(It.IsAny<int>())).ReturnsAsync(new Person() { CPF = "1212323", Name = "Luana" });
+            var patientService = new PatientService();
+            var patientRequestDto = new PatientDto() { HealthInsuranceNumber = "1111" };
+            var postPatientRequestDto = new PostPatientDto() { HealthInsuranceNumber = "1111" };
 
             // Act
-            var result = await bookService.Add(bookRequestDto);
+            var result = await patientService.Create(postPatientRequestDto);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(bookRequestDto.Title, result.Title);
-            Assert.Equal(bookRequestDto.Author, result.Author);
-            Assert.Equal(bookRequestDto.GenreId, result.GenreId);
+            Assert.NotNull(result);            
         }
 
         [Fact]
-        public async Task GetAll_WhenCalled_ReturnsBooks()
+        public async Task GetAll_WhenCalled_ReturnsPatient()
         {
+
+
             // Arrange
-            var bookService = new BookService(_bookRepository.Object, _genreRepository.Object);
-            var books = new List<Book>
+            var patientService = new PatientService();
+            var person = new Person() { CPF = "1212323", Name = "Luana" };
+
+            var patient = new List<Patient>
             {
-                new("Book one", "Someone", 1),
-                new("Book two", "Someone else", 2)
+                new(){ HealthInsuranceNumber = "1111", PersonId = 23, Person = person },
+                new(){ HealthInsuranceNumber = "1122", PersonId = 24, Person = person }
             };
 
-            _bookRepository.Setup(x => x.GetAll()).ReturnsAsync(books);
+            _patientRepository.Setup(x => x.GetAsync()).ReturnsAsync(patient);
 
             // Act
-            var result = await bookService.GetAll();
+            var result = await patientService.Get();
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(books.Count, result.Count());
+   
         }
 
+
         [Fact]
-        public async Task GetByGenre_WhenCalled_ReturnsBooks()
+        public async Task GetById_WhenCalled_ReturnsPatient()
         {
             // Arrange
-            var bookService = new BookService(_bookRepository.Object, _genreRepository.Object);
-            var books = new List<Book>
+            var patientService = new PatientService();
+            var person = new Person() { CPF = "1212323", Name = "Luana" };
+            var patient = new List<Patient>
             {
-                new("Book one", "Someone", 1),
-                new("Book two", "Someone else", 1)
+                new(){ HealthInsuranceNumber = "1111", PersonId = 23, Person = person },
+                new(){ HealthInsuranceNumber = "1122", PersonId = 24, Person = person }
             };
-            _bookRepository.Setup(x => x.GetAll(It.IsAny<Expression<Func<Book, bool>>>())).ReturnsAsync(books);
+
+            _patientRepository.Setup(x => x.GetAsync()).ReturnsAsync(patient);
 
             // Act
-            var result = await bookService.GetByGenre(1);
+            var result = await patientService.Get(1);
 
             // Assert
             Assert.NotNull(result);
-            Assert.Equal(books.Count, result.Count());
-        }
-
-        [Fact]
-        public async Task GetById_WhenCalled_ReturnsBook()
-        {
-            // Arrange
-            var bookService = new BookService(_bookRepository.Object, _genreRepository.Object);
-            var book = new Book("Book one", "Someone", 1);
-            _bookRepository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(book);
-
-            // Act
-            var result = await bookService.GetById(1);
-
-            // Assert
-            Assert.NotNull(result);
-            Assert.Equal(book.Title, result.Title);
-            Assert.Equal(book.Author, result.Author);
-            Assert.Equal(book.GenreId, result.GenreId);
+           
         }
 
         [Fact]
         public async Task Remove_WhenCalled_ReturnsVoid()
         {
             // Arrange
-            var bookService = new BookService(_bookRepository.Object, _genreRepository.Object);
-            var book = new Book("Book one", "Someone", 1);
-            _bookRepository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(book);
+            var patientService = new PatientService();
+            var person = new Person() { CPF = "1212323", Name = "Luana" };
+            var patient = new List<Patient>
+            {
+                new(){ HealthInsuranceNumber = "1111", PersonId = 23, Person = person },
+                new(){ HealthInsuranceNumber = "1122", PersonId = 24, Person = person }
+            };
 
             // Act
-            await bookService.Remove(1);
+            await patientService.Delete(1);
 
             // Assert
-            _bookRepository.Verify(x => x.Delete(It.IsAny<Book>()), Times.Once);
+            _patientRepository.Verify(x => x.Delete(It.IsAny<Patient>()), Times.Once);
         }
 
         [Fact]
         public async Task Update_WhenCalled_ReturnsVoid()
         {
-            // Arrange
-            var book = new Book("Book one", "Someone", 1);
-            _bookRepository.Setup(x => x.GetById(It.IsAny<int>())).ReturnsAsync(book);
-            var bookService = new BookService(_bookRepository.Object, _genreRepository.Object);
+            // Arrange           
+            var patientDto = new PatientDto() { HealthInsuranceNumber = "1111" };
+            var patientService = new PatientService();
 
             // Act
-            await bookService.Update(book);
+            await patientService.Update(patientDto);
 
             // Assert
-            _bookRepository.Verify(x => x.Update(It.IsAny<Book>()), Times.Once);
-        }*/
+            _patientRepository.Verify(x => x.Update(It.IsAny<Patient>()), Times.Once);
+        }
     }
 }
