@@ -80,7 +80,7 @@ namespace Hackathon.Application.Services
 
         public async Task<BaseOutput<User>> Get(UserDto userDto)
         {
-            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == userDto.Username, true);
+            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == userDto.Email, true);
 
             BaseOutput<User> response = new()
             {

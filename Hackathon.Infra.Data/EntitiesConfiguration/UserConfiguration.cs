@@ -21,9 +21,6 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
             builder.Property(p => p.PasswordHash)
                    .HasColumnType("varchar(250)")
                    .IsRequired();
-
-            builder.HasOne(p => p.Person).WithOne().HasForeignKey<User>(p => p.PersonId);
-
         }
     }
 }

@@ -330,7 +330,7 @@ namespace Hackathon.Application.Services
 
             var patient = await _patientRepository.GetSingleAsync(exp => exp.Id == appointmentDto.PatientId, false);
 
-            await _messagingService.SendMail(new EmailMessage { Subject = "Health&Med - Nova consulta agendada", Message = $"Olá, Dr. {doctor.Person.Name} Você tem uma nova consulta marcada!\r\nPaciente: {patient.Person.Name}.\r\nData e horário: {appointmentMapped.AppointmentDate.Date} {appointmentMapped.StartTime} às {appointmentMapped.EndTime} .", From = docEmail, To = docEmail });
+            await _messagingService.SendMail(new EmailMessage { Subject = "Health&Med - Nova consulta agendada", Message = $"Olá, Dr. {doctor.Person.Name} Você tem uma nova consulta marcada! \r\nPaciente: {patient.Person.Name}. \r\nData e horário: {appointmentMapped.AppointmentDate.Date.ToString("dd/MM/yyyy")} {appointmentMapped.StartTime} às {appointmentMapped.EndTime} .", From = docEmail, To = docEmail });
 
             return response;
         }

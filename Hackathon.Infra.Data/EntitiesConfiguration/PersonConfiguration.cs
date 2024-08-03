@@ -1,6 +1,7 @@
 ﻿using Hackathon.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System.Reflection.Emit;
 
 namespace Hackathon.Infra.Data.EntitiesConfiguration
 {
@@ -24,9 +25,9 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
                    .HasColumnType("varchar(15)")
                    .IsRequired();
 
-            builder.HasOne(p => p.User)
-               .WithOne(u => u.Person)
-               .HasForeignKey<User>(u => u.PersonId);
+            builder.HasOne(a => a.User)
+                   .WithOne(b => b.Person)
+                   .HasForeignKey<User>(b => b.PersonId);
         }
     }
 }

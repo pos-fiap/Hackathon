@@ -15,7 +15,7 @@ namespace Hackathon.Application.Validator
     {
         public PostPatientValidator()
         {
-            RuleFor(p => p.PersonalInformations.CPF).NotNull().WithMessage("CPF is a required field");
+            RuleFor(p => p.User.PersonalInformations.CPF).NotNull().WithMessage("CPF is a required field");
 
         }
     }

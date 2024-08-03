@@ -2,7 +2,7 @@
 {
     public class PostPatientDto
     {
-        public PersonDTO PersonalInformations { get; set; }
+        public UserDto User { get; set; }
         public required string? HealthInsuranceNumber { get; set; }
     }
 }

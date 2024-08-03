@@ -17,13 +17,17 @@ namespace Hackathon.Application.Services
         private readonly IMapper _mapper;
         private readonly IValidator<DoctorDto> _doctorDtoValidator;
         private readonly IValidator<PostDoctorDto> _postDoctorDtoValidator;
+        private readonly IUserRepository _userRepository;
+        private readonly IUserRoleRepository _userRoleRepository;
 
         public DoctorService(IDoctorRepository doctorRepository,
                            IPersonRepository personRepository,
                            IUnitOfWork unitOfWork,
                            IMapper mapper,
                            IValidator<DoctorDto> doctorDtoValidator,
-                           IValidator<PostDoctorDto> postDoctorDtoValidator)
+                           IValidator<PostDoctorDto> postDoctorDtoValidator,
+                           IUserRepository userRepository,
+                           IUserRoleRepository userRoleRepository)
         {
             _doctorRepository = doctorRepository;
             _personRepository = personRepository;
@@ -31,6 +35,8 @@ namespace Hackathon.Application.Services
             _mapper = mapper;
             _doctorDtoValidator = doctorDtoValidator;
             _postDoctorDtoValidator = postDoctorDtoValidator;
+            _userRepository = userRepository;
+            _userRoleRepository = userRoleRepository;
         }
 
         public async Task<BaseOutput<List<Doctor>>> Get()
@@ -62,14 +68,23 @@ namespace Hackathon.Application.Services
 
             ValidationUtil.ValidateClass(doctorDto, _postDoctorDtoValidator, response);
 
-            IList<Person> person = _personRepository.GetPersonByDocument(doctorDto.PersonalInformations.CPF);
+            doctorDto.User.Password = BCrypt.Net.BCrypt.HashPassword(doctorDto.User.Password);
+
+            IEnumerable<User> users = await _userRepository.GetAsync(x => x.Email == doctorDto.User.Email, true);
+
+            if (users.Any())
+            {
+                response.AddError("There is an user with the email provided.");
+            }
+
+            IList<Person> person = _personRepository.GetPersonByDocument(doctorDto.User.PersonalInformations.CPF);
 
             if (person.Any())
             {
                 response.AddError($"There is an active person with the document provided (Name: {person.First().Name}), please reuse it to register.");
             }
 
-            IEnumerable<Doctor> doctors = await _doctorRepository.GetAsync(x => x.Person.CPF == doctorDto.PersonalInformations.CPF, true);
+            IEnumerable<Doctor> doctors = await _doctorRepository.GetAsync(x => x.Person.CPF == doctorDto.User.PersonalInformations.CPF || x.CRM == doctorDto.CRM, true);
 
             if (doctors.Any())
             {
@@ -81,7 +96,26 @@ namespace Hackathon.Application.Services
                 return response;
             }
 
+            var personMapped = _mapper.Map<Person>(doctorDto.User.PersonalInformations);
+            await _personRepository.AddAsync(personMapped);
+            await _unitOfWork.CommitAsync();
+
+            var userMapped = _mapper.Map<User>(doctorDto.User);
+            userMapped.PersonId = personMapped.Id;
+            await _userRepository.AddAsync(userMapped);
+            await _unitOfWork.CommitAsync();
+
+            var userRole = new UserRole
+            {
+                UserId = userMapped.Id,
+                RoleId = 1 //Doctor
+            };
+
+            await _userRoleRepository.AddAsync(userRole);
+            await _unitOfWork.CommitAsync();
+
             Doctor doctorMapped = _mapper.Map<Doctor>(doctorDto);
+            doctorMapped.PersonId = personMapped.Id;
 
             await _doctorRepository.AddAsync(doctorMapped);
             await _unitOfWork.CommitAsync();
