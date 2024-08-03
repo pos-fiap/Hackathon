@@ -2,10 +2,7 @@
 using Hackathon.Application.Services;
 using Hackathon.Domain.Entities;
 using Hackathon.Domain.Interfaces;
-using Hackathon.Infra.Data.Repositories;
 using Moq;
-using System;
-using System.Linq.Expressions;
 using Xunit;
 
 namespace Hackathon.Tests.Services
@@ -15,11 +12,11 @@ namespace Hackathon.Tests.Services
     {
         private readonly Mock<IPatientRepository> _patientRepository;
         private readonly Mock<IPersonRepository> _personRepository;
-      
+
         public PatientServiceTest()
         {
             _patientRepository = new Mock<IPatientRepository>();
-            _personRepository = new Mock<IPersonRepository>();        
+            _personRepository = new Mock<IPersonRepository>();
         }
 
 
@@ -36,7 +33,7 @@ namespace Hackathon.Tests.Services
             var result = await patientService.Create(postPatientRequestDto);
 
             // Assert
-            Assert.NotNull(result);            
+            Assert.NotNull(result);
         }
 
         [Fact]
@@ -61,7 +58,7 @@ namespace Hackathon.Tests.Services
 
             // Assert
             Assert.NotNull(result);
-   
+
         }
 
 
@@ -84,7 +81,7 @@ namespace Hackathon.Tests.Services
 
             // Assert
             Assert.NotNull(result);
-           
+
         }
 
         [Fact]

@@ -1,11 +1,9 @@
-﻿using System.Text.Json.Serialization;
-
-namespace Hackathon.Domain.Entities
+﻿namespace Hackathon.Application.DTOs
 {
     public class DefaultAvailabilityDto
     {
         public int Id { get; set; }
-
+        public int DoctorId { get; set; }
         public TimeSpan? StartSunday { get; set; }
         public TimeSpan? EndSunday { get; set; }
         public TimeSpan? LunchStartSunday { get; set; }

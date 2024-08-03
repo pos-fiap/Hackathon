@@ -1,7 +1,6 @@
 ﻿using Hackathon.Application.BaseResponse;
 using Hackathon.Application.DTOs;
 using Hackathon.Application.Interfaces;
-using Hackathon.Application.Services;
 using Hackathon.Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;

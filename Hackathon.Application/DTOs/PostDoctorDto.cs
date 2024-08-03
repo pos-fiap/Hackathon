@@ -1,6 +1,4 @@
-﻿using Hackathon.Domain.Entities;
-
-namespace Hackathon.Application.DTOs
+﻿namespace Hackathon.Application.DTOs
 {
     public class PostDoctorDto
     {

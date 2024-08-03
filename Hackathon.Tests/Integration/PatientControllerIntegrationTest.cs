@@ -1,15 +1,12 @@
 ﻿using Hackathon.Api.Controllers;
-using Hackathon.Infra.Data.Context;
-using Hackathon.Infra.Data.Repositories;
+using Hackathon.Application.DTOs;
 using Hackathon.Application.Services;
 using Hackathon.Domain.Entities;
-using Xunit;
-using Hackathon.Application.Interfaces;
-using Hackathon.Domain.Interfaces;
-using Microsoft.EntityFrameworkCore;
-using System;
-using Hackathon.Application.DTOs;
+using Hackathon.Infra.Data.Context;
+using Hackathon.Infra.Data.Repositories;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Xunit;
 
 namespace Hackathon.Tests.Integration
 {

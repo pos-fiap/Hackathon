@@ -130,6 +130,7 @@ namespace Hackathon.Application.Services
             await _unitOfWork.CommitAsync();
 
             Doctor doctorMapped = _mapper.Map<Doctor>(doctorDto);
+            doctorMapped.DefaultAvailability = null;
             doctorMapped.PersonId = personMapped.Id;
 
             await _doctorRepository.AddAsync(doctorMapped);
@@ -225,6 +226,12 @@ namespace Hackathon.Application.Services
         public async Task<BaseOutput<bool>> Delete(int id)
         {
             BaseOutput<bool> response = new();
+
+            if (id == 1)
+            {
+                response.AddError("You can't delete the admin user.");
+                return response;
+            }
 
             Doctor doctor = await _doctorRepository.GetSingleAsync(exp => exp.Id == id, true);
 

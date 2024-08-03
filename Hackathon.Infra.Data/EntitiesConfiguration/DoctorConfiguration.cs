@@ -25,8 +25,8 @@ namespace Hackathon.Infra.Data.EntitiesConfiguration
                    .HasForeignKey<Doctor>(p => p.PersonId);
 
             builder.HasOne(p => p.DefaultAvailability)
-                   .WithOne()
-                   .HasForeignKey<DefaultAvailability>(p => p.Id);
+                   .WithOne(p => p.Doctor)
+                   .HasForeignKey<DefaultAvailability>(p => p.DoctorId);
         }
     }
 }
