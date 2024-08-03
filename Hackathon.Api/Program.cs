@@ -11,7 +11,7 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-string connectionString = builder.Configuration.GetConnectionString("DockerfileDefaultConnection") ?? throw new InvalidOperationException("The connection string 'DefaultConnection' is missing or empty."); ;
+string connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("The connection string 'DefaultConnection' is missing or empty."); ;
 
 builder.Services.AddDbContext<ApplicationContext>(options => options.UseSqlServer(connectionString, options => options.EnableRetryOnFailure()).UseLazyLoadingProxies());
 
