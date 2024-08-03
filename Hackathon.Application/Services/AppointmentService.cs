@@ -11,7 +11,7 @@ namespace Hackathon.Application.Services
 {
     public class AppointmentService : IAppointmentService
     {
-        private const int MaxDays = 30;
+        private const int MaxDays = 4;
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IPersonRepository _personRepository;
         private readonly IDefaultAvailabilityRepository _defaultAvailabilityRepository;
@@ -52,7 +52,7 @@ namespace Hackathon.Application.Services
             var appointments = await _appointmentRepository.GetAsync(x => x.DoctorId == doctorId, true);
 
             List<AvailabilityDto> availabilities = new();
-            DateTime today = DateTime.Today;
+            DateTime today = DateTime.Today.AddDays(10);
            
             void AddDefaultAvailabilityWithLunch(DateTime date, TimeSpan? start, TimeSpan? end, TimeSpan? lunchStart, TimeSpan? lunchEnd)
             {
@@ -165,6 +165,11 @@ namespace Hackathon.Application.Services
                    
                     if (appointmentStart > availability.StartTime && appointmentEnd < availability.EndTime)
                     {
+                        if (appointmentStart >= availability.StartTime && appointmentEnd <= availability.EndTime)
+                        {
+                            continue;
+                        }
+
                         availabilities.Add(new AvailabilityDto
                         {
                             RawDate = rawDate,

@@ -147,15 +147,6 @@ namespace Hackathon.Infra.Data.Context
             },
             new Appointment
             {
-                Id = 2,
-                DoctorId = 1,
-                PatientId = 1,
-                AppointmentDate = new DateTime(2024, 8, 13), // Terça-feira
-                StartTime = new TimeSpan(14, 0, 0),
-                EndTime = new TimeSpan(15, 0, 0)
-            },
-            new Appointment
-            {
                 Id = 3,
                 DoctorId = 1,
                 PatientId = 1,
